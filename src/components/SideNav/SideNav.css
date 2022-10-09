@@ -1,0 +1,16 @@
+.SideNavAnimation {
+  animation: navShow 0.5s both;
+}
+
+@keyframes navShow {
+  0% {
+    opacity: 0;
+    transform: translateX(-500px);
+  }
+  10% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(0px);
+  }
+}
