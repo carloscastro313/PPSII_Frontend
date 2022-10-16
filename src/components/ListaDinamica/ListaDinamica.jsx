@@ -24,7 +24,7 @@ const ListaDinamica = ({
         {lista.map((value) => (
           <ListaItem value={value} key={value.id}>
             {actionsArr.map((action) => (
-              <Button {...action} />
+              <Button {...action} key={action.name} />
             ))}
           </ListaItem>
         ))}

@@ -18,7 +18,7 @@ const FormDinamico = ({
   return (
     <form onSubmit={formik.handleSubmit}>
       {inputs.map(({ type, label, id }) => (
-        <ErrorInput error={formik.errors[id]}>
+        <ErrorInput error={formik.errors[id]} key={id}>
           <Input
             type={type}
             label={label}
