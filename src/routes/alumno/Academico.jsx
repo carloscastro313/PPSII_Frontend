@@ -2,10 +2,10 @@ import React from "react";
 import Layout from "../../components/Layout/Layout";
 import useProtectedRoute from "../../hooks/useProtectedRoute";
 
-const Plan = () => {
+const Academico = () => {
   useProtectedRoute("alumno");
 
-  return <Layout>Plan</Layout>;
+  return <Layout>Academico</Layout>;
 };
 
-export default Plan;
+export default Academico;

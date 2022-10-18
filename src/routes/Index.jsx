@@ -13,11 +13,11 @@ const Index = () => {
   return (
     <Layout>
       <Container>
-        <div className="w-full h-1/2">
-          <h1 className="my-3 text-xl">
+        <div className="h-1/2">
+          <h1 className="mb-3 text-xl">
             Bienvenido {usuario && usuario.nombre}
           </h1>
-          <div className="flex flex-col flex-wrap w-full sm:flex-row gap-3 overflow-y-auto">
+          <div className="flex flex-col w-full sm:flex-wrap sm:flex-row gap-3 overflow-x-auto max-h-60">
             {usuario &&
               menuBtns[usuario.tipo].map(({ name, route }) => (
                 <Button

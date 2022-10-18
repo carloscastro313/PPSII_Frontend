@@ -1,10 +1,13 @@
-const Container = ({ children }) => {
+const Container = ({
+  children,
+  cssClass = "w-5/6 h-5/6 min-h-[650px] bg-blue-500",
+}) => {
   return (
-    <main className="flex justify-center">
-      <div className="w-5/6 h-5/6 bg-blue-500 my-auto p-5 overflow-y-auto">
+    <div className="flex justify-center h-full">
+      <div className={cssClass + " self-center p-5 rounded overflow-y-auto"}>
         {children}
       </div>
-    </main>
+    </div>
   );
 };
 
