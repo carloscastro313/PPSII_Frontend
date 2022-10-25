@@ -16,22 +16,20 @@ const ListaDinamica = ({
   }, [listado, actions]);
 
   return (
-    <div className="h-full bg-white overflow-auto">
-      <table className={cssClass + " text-center"}>
-        <thead className={cssClassHeader}>
-          <ListaHeader names={[...Object.keys(listado[0]), "acciones"]} />
-        </thead>
-        <tbody>
-          {lista.map((value) => (
-            <ListaItem value={value} key={value.id}>
-              {actionsArr.map((action) => (
-                <Button {...action} key={action.name} />
-              ))}
-            </ListaItem>
-          ))}
-        </tbody>
-      </table>
-    </div>
+    <table className={cssClass + " text-center"}>
+      <thead className={cssClassHeader}>
+        <ListaHeader names={[...Object.keys(listado[0]), "acciones"]} />
+      </thead>
+      <tbody>
+        {lista.map((value) => (
+          <ListaItem value={value} key={value.id}>
+            {actionsArr.map((action) => (
+              <Button {...action} key={action.name} />
+            ))}
+          </ListaItem>
+        ))}
+      </tbody>
+    </table>
   );
 };
 
