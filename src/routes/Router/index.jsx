@@ -1,5 +1,7 @@
 import React from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import ListadoAdmin from "../administrador/ListadoAdmin";
+import ListadoDocentes from "../administrador/ListadoDocentes";
 import ListadoUsuario from "../administrador/ListadoUsuario";
 import Academico from "../alumno/Academico";
 import Correlativas from "../alumno/Correlativas";
@@ -67,8 +69,16 @@ const router = createBrowserRouter([
     element: <ListadoAlumnos />,
   },
   {
-    path: "/administrador/listaUsuarios",
+    path: "/administrador/listasecretaria",
     element: <ListadoUsuario />,
+  },
+  {
+    path: "/administrador/listadocente",
+    element: <ListadoDocentes />,
+  },
+  {
+    path: "/administrador/listadoadmin",
+    element: <ListadoAdmin />,
   },
 ]);
 

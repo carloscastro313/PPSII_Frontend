@@ -22,7 +22,7 @@ const Layout = ({ children }) => {
           <SideNav
             show={showNav}
             showEvent={setShowNav}
-            menuButtons={menuBtns[usuario.tipo]}
+            menuButtons={menuBtns[usuario.TipoUsuario]}
           />
         )}
         <Header showEvent={setShowNav} />
