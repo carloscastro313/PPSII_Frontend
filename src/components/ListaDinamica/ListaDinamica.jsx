@@ -4,7 +4,7 @@ import Button from "../Button/Button";
 const ListaDinamica = ({
   listado = [],
   actions = [],
-  cssClass = "w-1/2",
+  cssClass = "w-full",
   cssClassHeader = "bg-blue-500 text-white",
 }) => {
   const [lista, setLista] = useState([]);
@@ -16,20 +16,22 @@ const ListaDinamica = ({
   }, [listado, actions]);
 
   return (
-    <table className={cssClass + " text-center"}>
-      <thead className={cssClassHeader}>
-        <ListaHeader names={[...Object.keys(listado[0]), "acciones"]} />
-      </thead>
-      <tbody>
-        {lista.map((value) => (
-          <ListaItem value={value} key={value.id}>
-            {actionsArr.map((action) => (
-              <Button {...action} key={action.name} />
-            ))}
-          </ListaItem>
-        ))}
-      </tbody>
-    </table>
+    <div className="h-full bg-white overflow-auto">
+      <table className={cssClass + " text-center"}>
+        <thead className={cssClassHeader}>
+          <ListaHeader names={[...Object.keys(listado[0]), "acciones"]} />
+        </thead>
+        <tbody>
+          {lista.map((value) => (
+            <ListaItem value={value} key={value.id}>
+              {actionsArr.map((action) => (
+                <Button {...action} key={action.name} />
+              ))}
+            </ListaItem>
+          ))}
+        </tbody>
+      </table>
+    </div>
   );
 };
 

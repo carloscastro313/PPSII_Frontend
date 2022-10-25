@@ -62,5 +62,10 @@ export const menuBtns = {
       route: "/secretaria/listaAlumnos",
     },
   ],
-  administrador: [],
+  administrador: [
+    {
+      name: "Administrar usuarios",
+      route: "/administrador/listaUsuarios",
+    },
+  ],
 };

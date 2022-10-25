@@ -6,14 +6,14 @@ import ListaDinamica from "../../components/ListaDinamica/ListaDinamica";
 import HTTP from "../../config/axios";
 import useProtectedRoute from "../../hooks/useProtectedRoute";
 
-const ListadoAlumnos = () => {
+const ListadoUsuario = () => {
   const [usuarios, setUsuarios] = useState([]);
 
-  useProtectedRoute("secretaria");
+  useProtectedRoute("administrador");
 
   const getAlumnos = useCallback(() => {
     HTTP.get("/usuarios/").then(({ data }) => {
-      data = data.filter((d) => d.TipoUsuario === 4);
+      data = data.filter((d) => d.TipoUsuario !== 4);
       setUsuarios(data);
     });
   }, []);
@@ -26,7 +26,7 @@ const ListadoAlumnos = () => {
     <Layout>
       <Container>
         <div className="h-1/5">
-          <h1 className="mb-3 text-xl">Listado de alumnos</h1>
+          <h1 className="mb-3 text-xl">Listado de usuarios</h1>
         </div>
         <div className="h-3/4">
           <div className="h-full bg-white overflow-auto">
@@ -51,4 +51,4 @@ function alumnoFormat(usuarios = []) {
   });
 }
 
-export default ListadoAlumnos;
+export default ListadoUsuario;
