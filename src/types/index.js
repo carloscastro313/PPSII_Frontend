@@ -3,7 +3,7 @@
 export const LOADING = "LOADING";
 export const LOGIN = "LOGIN";
 export const LOGOUT = "LOGOUT";
-export const SIGNOUT = "SIGNOUT";
+export const ERROR = "ERROR";
 
 // ERROR
 

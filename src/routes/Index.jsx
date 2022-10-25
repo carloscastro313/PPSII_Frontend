@@ -19,7 +19,7 @@ const Index = () => {
           </h1>
           <div className="flex flex-col w-full sm:flex-wrap sm:flex-row gap-3 overflow-x-auto max-h-60">
             {usuario &&
-              menuBtns[usuario.tipo].map(({ name, route }) => (
+              menuBtns[usuario.TipoUsuario].map(({ name, route }) => (
                 <Button
                   name={name}
                   cssClass="bg-white hover:bg-blue-100 text-black w-full h-12 sm:h-24 sm:w-24"

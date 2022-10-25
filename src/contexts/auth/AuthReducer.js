@@ -1,9 +1,9 @@
-import { LOADING, LOGIN, LOGOUT } from "../../types";
+import { ERROR, LOADING, LOGIN, LOGOUT } from "../../types";
 
 const AuthReducer = (state, action) => {
   switch (action.type) {
     case LOGIN:
-      //localStorage.setItem("token", action.payload.token);
+      localStorage.setItem("token", action.payload.token);
       return {
         ...state,
         token: action.payload.token,
@@ -11,6 +11,7 @@ const AuthReducer = (state, action) => {
         loading: false,
       };
     case LOGOUT:
+      localStorage.removeItem("token");
       return {
         ...state,
         token: null,
@@ -18,6 +19,11 @@ const AuthReducer = (state, action) => {
         loading: false,
       };
     case LOADING:
+      return {
+        ...state,
+        loading: true,
+      };
+    case ERROR:
       return {
         ...state,
         loading: true,

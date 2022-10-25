@@ -1,5 +1,9 @@
 import React, { useReducer } from "react";
-import { LOADING, LOGIN, LOGOUT } from "../../types";
+import { useEffect } from "react";
+import HTTP from "../../config/axios";
+import tokenAuth from "../../config/token";
+import getTipoUsuario from "../../helpers/getTipoUsuario";
+import { ERROR, LOADING, LOGIN, LOGOUT } from "../../types";
 import AuthContext from "./AuthContext";
 import AuthReducer from "./AuthReducer";
 
@@ -12,32 +16,70 @@ const AuthState = (props) => {
 
   const [state, dispatch] = useReducer(AuthReducer, initialState);
 
-  const login = (usuario) => {
-    dispatch({
-      type: LOADING,
-    });
-    console.log(usuario);
-    try {
-      const payload = {
-        usuario: {
-          ...usuario,
-          tipo: "alumno",
-          nombre: "testing",
-          apellido: "testing",
-        },
-        token: "asd",
-      };
+  useEffect(() => {
+    obtenerUsuario();
+  }, []);
 
-      setTimeout(() => {
-        dispatch({
-          type: LOGIN,
-          payload,
-        });
-      }, 1000);
-    } catch ({ response }) {
-      console.log(response);
+  const obtenerUsuario = async () => {
+    try {
+      if (state.token) {
+        tokenAuth(state.token);
+      }
+
+      const {
+        data: { token, usuario },
+      } = await HTTP.post("/usuarios/check");
+      dispatch({
+        type: LOGIN,
+        payload: {
+          token,
+          usuario: {
+            ...usuario,
+            TipoUsuario: getTipoUsuario(usuario.TipoUsuario),
+          },
+        },
+      });
+    } catch (error) {
+      console.log(error);
+      dispatch({
+        type: LOGOUT,
+      });
     }
   };
+
+  const login = (datos) =>
+    new Promise(async (resolve, reject) => {
+      dispatch({
+        type: LOADING,
+      });
+      try {
+        const {
+          data: { token, usuario },
+        } = await HTTP.post("/usuarios/login", datos);
+
+        tokenAuth(token);
+
+        dispatch({
+          type: LOGIN,
+          payload: {
+            token,
+            usuario: {
+              ...usuario,
+              TipoUsuario: getTipoUsuario(usuario.TipoUsuario),
+            },
+          },
+        });
+        resolve({
+          result: true,
+        });
+      } catch (error) {
+        dispatch({
+          type: ERROR,
+        });
+        console.log(error);
+        reject(error.response.data.body);
+      }
+    });
 
   const signOut = () => {
     dispatch({

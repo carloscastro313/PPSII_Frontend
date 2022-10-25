@@ -6,7 +6,7 @@ import ErrorReducer from "./ErrorReducer";
 const ErrorState = (prop) => {
   const initialState = {
     msg: "null",
-    show: true,
+    show: false,
   };
 
   const [state, dispatch] = useReducer(ErrorReducer, initialState);

@@ -9,7 +9,7 @@ const useProtectedRoute = (userType) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (usuario && user !== usuario.tipo) navigate("/");
+    if (usuario && user !== usuario.TipoUsuario) navigate("/");
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [usuario]);

@@ -2,32 +2,34 @@ import { useContext } from "react";
 import FormDinamico from "../components/FormDinamico/FormDinamico";
 import Layout from "../components/Layout/Layout";
 import AuthContext from "../contexts/auth/AuthContext";
+import ErrorContext from "../contexts/errorPopup/ErrorContext";
 import loginValidation from "../helpers/loginValidation";
 
 const formInput = [
   {
     type: "text",
     label: "Email",
-    id: "email",
+    id: "Mail",
   },
   {
     type: "password",
     label: "Contraseña",
-    id: "contraseña",
+    id: "Contraseña",
   },
 ];
 
 const initialValues = {
-  email: "",
-  contraseña: "",
+  Mail: "",
+  Contraseña: "",
 };
 
 const Login = () => {
-  const { login } = useContext(AuthContext);
-
-  const submitHandler = (values) => {
-    console.log(values);
-    login(values);
+  const { login, loading } = useContext(AuthContext);
+  const { showError } = useContext(ErrorContext);
+  const submitHandler = async (values) => {
+    login(values).catch((msg) => {
+      showError(msg);
+    });
   };
 
   return (

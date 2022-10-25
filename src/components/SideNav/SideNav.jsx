@@ -20,9 +20,9 @@ const SideNav = ({ show = false, showEvent, menuButtons = [] }) => {
           <div className="flex p-3 justify-between">
             <div>
               <p className="overflow-ellipsis">
-                {usuario && `${usuario.nombre} ${usuario.apellido}`}
+                {usuario && `${usuario.Nombre} ${usuario.Apellido}`}
               </p>
-              <span>{usuario && usuario.tipo}</span>
+              <span>{usuario && usuario.TipoUsuario}</span>
             </div>
             <Button name="Cerra sesion" onClickEvent={() => signOut()} />
           </div>
