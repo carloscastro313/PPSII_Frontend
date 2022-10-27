@@ -23,8 +23,12 @@ const ListaDinamica = ({
       <tbody>
         {lista.map((value) => (
           <ListaItem value={value} key={value.id}>
-            {actionsArr.map((action) => (
-              <Button {...action} key={action.name} />
+            {actionsArr.map(({ name, onClickEvent }) => (
+              <Button
+                name={name}
+                onClickEvent={() => onClickEvent(value)}
+                key={name}
+              />
             ))}
           </ListaItem>
         ))}

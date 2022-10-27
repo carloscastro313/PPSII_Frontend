@@ -58,7 +58,7 @@ export const menuBtns = {
   ],
   secretaria: [
     {
-      name: "Administrar alumnos",
+      name: "Listado alumnos",
       route: "/secretaria/listaAlumnos",
     },
   ],

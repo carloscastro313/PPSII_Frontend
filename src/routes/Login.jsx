@@ -26,7 +26,7 @@ const initialValues = {
 const Login = () => {
   const { login, loading } = useContext(AuthContext);
   const { showError } = useContext(ErrorContext);
-  const submitHandler = async (values) => {
+  const submitHandler = (values) => {
     login(values).catch((msg) => {
       showError(msg);
     });

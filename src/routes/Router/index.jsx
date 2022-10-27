@@ -1,5 +1,6 @@
 import React from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import CrearUsuario from "../administrador/CrearUsuario";
 import ListadoAdmin from "../administrador/ListadoAdmin";
 import ListadoDocentes from "../administrador/ListadoDocentes";
 import ListadoUsuario from "../administrador/ListadoUsuario";
@@ -79,6 +80,69 @@ const router = createBrowserRouter([
   {
     path: "/administrador/listadoadmin",
     element: <ListadoAdmin />,
+  },
+  {
+    path: "/administrador/crearsecretaria",
+    element: (
+      <CrearUsuario
+        TipoUsuario={2}
+        title="Crear secretaria"
+        redirect="/administrador/listasecretaria"
+      />
+    ),
+  },
+  {
+    path: "/administrador/creardocente",
+    element: (
+      <CrearUsuario
+        TipoUsuario={3}
+        title="Crear docente"
+        redirect="/administrador/listadocente"
+      />
+    ),
+  },
+  {
+    path: "/administrador/crearadministrador",
+    element: (
+      <CrearUsuario
+        TipoUsuario={1}
+        title="Crear administrador"
+        redirect="/administrador/listadoadmin"
+      />
+    ),
+  },
+  {
+    path: "/administrador/modificarsecretaria/:id",
+    element: (
+      <CrearUsuario
+        TipoUsuario={2}
+        title="Crear secretaria"
+        redirect="/administrador/listasecretaria"
+        modificacion={true}
+      />
+    ),
+  },
+  {
+    path: "/administrador/modificardocente/:id",
+    element: (
+      <CrearUsuario
+        TipoUsuario={3}
+        title="Crear docente"
+        redirect="/administrador/listadocente"
+        modificacion={true}
+      />
+    ),
+  },
+  {
+    path: "/administrador/modificaradministrador/:id",
+    element: (
+      <CrearUsuario
+        TipoUsuario={1}
+        title="Crear administrador"
+        redirect="/administrador/listadoadmin"
+        modificacion={true}
+      />
+    ),
   },
 ]);
 
