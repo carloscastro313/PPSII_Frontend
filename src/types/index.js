@@ -75,5 +75,9 @@ export const menuBtns = {
       name: "Listado administrador",
       route: "/administrador/listadoadmin",
     },
+    {
+      name: "Listado carreras",
+      route: "/administrador/listadocarreras",
+    },
   ],
 };

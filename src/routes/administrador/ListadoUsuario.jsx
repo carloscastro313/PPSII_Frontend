@@ -33,6 +33,7 @@ const ListadoUsuario = () => {
       onClickEvent: ({ Legajo }) => {
         navigate("/administrador/modificarsecretaria/" + Legajo);
       },
+      cssClass: "bg-yellow-600 hover:bg-yellow-500 text-white",
     },
     {
       name: "Eliminar",
@@ -41,6 +42,7 @@ const ListadoUsuario = () => {
           .then(() => fetch())
           .catch(({ reponse: { data } }) => showError(data.msg));
       },
+      cssClass: "bg-red-600 hover:bg-red-500 text-white",
     },
   ];
 

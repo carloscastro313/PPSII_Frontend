@@ -1,7 +1,8 @@
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import AuthContext from "../../contexts/auth/AuthContext";
-import Button from "../Button/Button";
+import IconButton from "../IconButton/IconButton";
+import { BsList } from "react-icons/bs";
 
 const Header = ({ showEvent, isLog = true }) => {
   const { usuario } = useContext(AuthContext);
@@ -9,11 +10,12 @@ const Header = ({ showEvent, isLog = true }) => {
   return (
     <header className="flex bg-blue-500 px-3">
       {usuario != null && (
-        <Button
+        <IconButton
           onClickEvent={() => showEvent(true)}
-          name="Menu"
-          cssClass="bg-orange-500 hover:bg-orange-400 my-auto"
-        />
+          cssClass="bg-blue-600 hover:bg-blue-400 my-auto"
+        >
+          <BsList />
+        </IconButton>
       )}
       {usuario != null ? (
         <Link to="/" className="absolute left-2/4 top-3">

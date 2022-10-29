@@ -8,30 +8,40 @@ const FormDinamico = ({
   onSubmit,
   inputs = [],
   btnSubmit,
+  cssButton = "bg-blue-600 hover:bg-blue-500 text-white",
+  cssForm = "flex flex-col",
 }) => {
   const formik = useFormik({
     initialValues,
     validate,
     onSubmit,
+    enableReinitialize: true,
   });
 
   return (
-    <form onSubmit={formik.handleSubmit}>
-      {inputs.map(({ type, label, id }) => (
-        <ErrorInput error={formik.errors[id]} key={id}>
-          <Input
-            type={type}
-            label={label}
-            id={id}
-            value={formik.values[id]}
-            onChange={formik.handleChange}
-          />
-        </ErrorInput>
-      ))}
+    <form onSubmit={formik.handleSubmit} className={cssForm}>
+      {inputs.map(({ type, label, id }) => {
+        if (type === "hidden") return <input type="hidden" id={id} key={id} />;
+
+        return (
+          <ErrorInput error={formik.errors[id]} key={id}>
+            <Input
+              type={type}
+              label={label}
+              id={id}
+              value={formik.values[id]}
+              onChange={formik.handleChange}
+            />
+          </ErrorInput>
+        );
+      })}
       <div className="flex justify-center mt-3">
         <button
           type="submit"
-          className="bg-blue-600 hover:bg-blue-500 text-white py-2 min-w-[100px] text-center rounded transition-colors"
+          className={
+            cssButton +
+            " py-2 min-w-[100px] text-center rounded transition-colors"
+          }
         >
           {btnSubmit}
         </button>

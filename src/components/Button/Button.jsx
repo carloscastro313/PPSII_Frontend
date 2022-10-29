@@ -3,7 +3,7 @@ import React from "react";
 const Button = ({
   onClickEvent,
   name,
-  cssClass = "bg-blue-600 hover:bg-blue-500 text-white",
+  cssClass = "bg-blue-600 hover:bg-blue-400 text-white",
 }) => {
   return (
     <button

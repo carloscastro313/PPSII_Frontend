@@ -5,7 +5,7 @@ const ListaDinamica = ({
   listado = [],
   actions = [],
   cssClass = "w-full",
-  cssClassHeader = "bg-blue-500 text-white",
+  cssClassHeader = "bg-blue-600 text-white",
 }) => {
   const [lista, setLista] = useState([]);
   const [actionsArr, setActions] = useState([]);
@@ -23,11 +23,12 @@ const ListaDinamica = ({
       <tbody>
         {lista.map((value) => (
           <ListaItem value={value} key={value.id}>
-            {actionsArr.map(({ name, onClickEvent }) => (
+            {actionsArr.map((action) => (
               <Button
-                name={name}
-                onClickEvent={() => onClickEvent(value)}
-                key={name}
+                onClickEvent={() => action.onClickEvent(value)}
+                name={action.name}
+                key={action.name}
+                cssClass={action.cssClass}
               />
             ))}
           </ListaItem>

@@ -2,6 +2,7 @@ import React from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import CrearUsuario from "../administrador/CrearUsuario";
 import ListadoAdmin from "../administrador/ListadoAdmin";
+import ListadoCarrera from "../administrador/ListadoCarrera";
 import ListadoDocentes from "../administrador/ListadoDocentes";
 import ListadoUsuario from "../administrador/ListadoUsuario";
 import Academico from "../alumno/Academico";
@@ -143,6 +144,10 @@ const router = createBrowserRouter([
         modificacion={true}
       />
     ),
+  },
+  {
+    path: "/administrador/listadocarreras",
+    element: <ListadoCarrera />,
   },
 ]);
 

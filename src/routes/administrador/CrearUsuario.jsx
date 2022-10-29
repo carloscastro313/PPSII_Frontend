@@ -45,7 +45,7 @@ const initialValues = {
 };
 
 const CrearUsuario = ({
-  modificacion = true,
+  modificacion = false,
   TipoUsuario,
   title = "",
   redirect = "/",
@@ -105,21 +105,21 @@ const CrearUsuario = ({
   };
   return (
     <Layout>
-      <Container cssClass="w-1/2 h-5/6 min-h-[650px] bg-blue-500">
+      <Container cssClass="w-3/4 lg:w-1/2 min-h-[650px] bg-blue-500">
         <h1 className="text-xl text-center">{title}</h1>
-        <div className="flex flex-col justify-around">
-          {loading ? (
-            "Cargando..."
-          ) : (
-            <FormDinamico
-              inputs={formInput}
-              initialValues={values}
-              onSubmit={submitHandler}
-              btnSubmit="Crear"
-              validate={crearAlumnoValidation}
-            />
-          )}
-        </div>
+        {loading ? (
+          "Cargando..."
+        ) : (
+          <FormDinamico
+            inputs={formInput}
+            initialValues={values}
+            onSubmit={submitHandler}
+            btnSubmit={modificacion ? "Modificar" : "Crear"}
+            validate={crearAlumnoValidation}
+            cssForm="flex flex-col gap-3 mt-5"
+            cssButton="bg-yellow-500 hover:bg-yellow-400 "
+          />
+        )}
       </Container>
     </Layout>
   );
