@@ -8,8 +8,8 @@ import loginValidation from "../helpers/loginValidation";
 const formInput = [
   {
     type: "text",
-    label: "Email",
-    id: "Mail",
+    label: "N° Legajo",
+    id: "Legajo",
   },
   {
     type: "password",
@@ -19,7 +19,7 @@ const formInput = [
 ];
 
 const initialValues = {
-  Mail: "",
+  Legajo: "",
   Contraseña: "",
 };
 
