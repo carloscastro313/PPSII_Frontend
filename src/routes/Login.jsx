@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import FormDinamico from "../components/FormDinamico/FormDinamico";
 import Layout from "../components/Layout/Layout";
+import LoadingModal from "../components/LoadingModal/LoadingModal";
 import AuthContext from "../contexts/auth/AuthContext";
 import ErrorContext from "../contexts/errorPopup/ErrorContext";
 import loginValidation from "../helpers/loginValidation";
@@ -34,6 +35,7 @@ const Login = () => {
 
   return (
     <Layout>
+      <LoadingModal show={loading} />
       <div className="h-full flex justify-center place-items-center">
         <div className="w-80 h-80 bg-blue-300 rounded">
           <h1 className="text-2xl text-center my-4">Iniciar sesión</h1>

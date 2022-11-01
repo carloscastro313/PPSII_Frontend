@@ -4,6 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import Container from "../../components/Container/Container";
 import FormDinamico from "../../components/FormDinamico/FormDinamico";
 import Layout from "../../components/Layout/Layout";
+import LoadingModal from "../../components/LoadingModal/LoadingModal";
 import HTTP from "../../config/axios";
 import ErrorContext from "../../contexts/errorPopup/ErrorContext";
 import crearAlumnoValidation from "../../helpers/crearAlumnoValidation";
@@ -90,21 +91,26 @@ const CrearUsuario = ({
   }, []);
 
   const submitHandler = (values) => {
+    setLoading(true);
+
     if (modificacion)
       HTTP.put("/usuarios/" + params["id"], { ...values, TipoUsuario })
         .then(() => {
           navigate(redirect);
         })
-        .catch(({ response: { data } }) => showError(data.msg));
+        .catch(({ response: { data } }) => showError(data.msg))
+        .finally(() => setLoading(false));
     else
       HTTP.post("/usuarios/", { ...values, TipoUsuario })
         .then(() => {
           navigate(redirect);
         })
-        .catch(({ response: { data } }) => showError(data.msg));
+        .catch(({ response: { data } }) => showError(data.msg))
+        .finally(() => setLoading(false));
   };
   return (
     <Layout>
+      <LoadingModal show={loading} />
       <Container cssClass="w-3/4 lg:w-1/2 min-h-[650px] bg-blue-500">
         <h1 className="text-xl text-center">{title}</h1>
         {loading ? (

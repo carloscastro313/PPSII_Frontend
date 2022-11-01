@@ -5,6 +5,7 @@ import Button from "../../components/Button/Button";
 import Container from "../../components/Container/Container";
 import Layout from "../../components/Layout/Layout";
 import ListaDinamica from "../../components/ListaDinamica/ListaDinamica";
+import Spinner from "../../components/Spinner/Spinner";
 import HTTP from "../../config/axios";
 import ErrorContext from "../../contexts/errorPopup/ErrorContext";
 import useProtectedRoute from "../../hooks/useProtectedRoute";
@@ -12,16 +13,20 @@ import useProtectedRoute from "../../hooks/useProtectedRoute";
 const ListadoDocentes = () => {
   const { showError } = useContext(ErrorContext);
   const [usuarios, setUsuarios] = useState([]);
+  const [fetching, setFetching] = useState(true);
 
   useProtectedRoute("administrador");
 
   const navigate = useNavigate();
 
   const fetch = useCallback(() => {
-    HTTP.get("/docentes/").then(({ data }) => {
-      data = data.filter((d) => d.TipoUsuario === 3);
-      setUsuarios(data);
-    });
+    setFetching(true);
+    HTTP.get("/docentes/")
+      .then(({ data }) => {
+        data = data.filter((d) => d.TipoUsuario === 3);
+        setUsuarios(data);
+      })
+      .finally(() => setFetching(false));
   }, []);
 
   useEffect(() => {
@@ -60,7 +65,7 @@ const ListadoDocentes = () => {
           </div>
         </div>
         <div className="h-3/4">
-          <div className="h-full bg-white overflow-auto">
+          <div className={`h-full overflow-auto ${!fetching && "bg-white"}`}>
             {usuarios.length > 0 && (
               <ListaDinamica
                 actions={actions}
@@ -70,6 +75,12 @@ const ListadoDocentes = () => {
             {usuarios.length === 0 && (
               <div className="flex justify-center h-full">
                 <h1 className="my-auto text-xl">No hay docentes</h1>
+              </div>
+            )}
+
+            {fetching && (
+              <div className="flex justify-center items-center h-full">
+                <Spinner />
               </div>
             )}
           </div>

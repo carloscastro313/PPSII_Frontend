@@ -1,11 +1,11 @@
 import React from "react";
 
-const Modal = ({ children, show }) => {
+const Modal = ({ children, show, zIndex = "z-10" }) => {
   return (
     <div
       className={`w-full h-full fixed bg-black bg-opacity-80 ${
         !show && "hidden"
-      } z-50`}
+      } ${zIndex}`}
     >
       {children}
     </div>
