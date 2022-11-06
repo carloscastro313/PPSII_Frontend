@@ -38,7 +38,10 @@ const FormCarrera = ({
 
   useEffect(() => {
     if (visible && modifcar) {
-      setValues(value);
+      setValues({
+        Id: value.Id,
+        Descripcion: value.Descripcion,
+      });
     } else {
       setValues({
         Id: "-1",
@@ -49,13 +52,25 @@ const FormCarrera = ({
   }, [visible, modifcar]);
 
   const submitHandler = (values) => {
-    HTTP.post("/administraciones/carrera", { Descripcion: values.Descripcion })
-      .then(() => {
-        closeModal(false);
+    if (modifcar) {
+      HTTP.put("/administraciones/carrera/", values)
+        .then(() => {
+          closeModal(false);
+        })
+        .catch(({ response }) => {
+          showError(response.data.msg);
+        });
+    } else {
+      HTTP.post("/administraciones/carrera", {
+        Descripcion: values.Descripcion,
       })
-      .catch(({ response }) => {
-        showError(response.data.msg);
-      });
+        .then(() => {
+          closeModal(false);
+        })
+        .catch(({ response }) => {
+          showError(response.data.msg);
+        });
+    }
   };
 
   return (
@@ -65,7 +80,7 @@ const FormCarrera = ({
           <span></span>
           <h1 className="text-center">Crear carrera</h1>
           <div>
-            <IconButton onClickEvent={() => closeModal(false)}>
+            <IconButton onClickEvent={() => closeModal()}>
               <BsX />
             </IconButton>
           </div>

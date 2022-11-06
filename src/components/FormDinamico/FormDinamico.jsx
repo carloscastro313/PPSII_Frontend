@@ -1,5 +1,5 @@
-import { useFormik } from "formik";
-import React from "react";
+import { Formik } from "formik";
+import React, { useEffect, useState } from "react";
 import Input from "../Input/Input";
 
 const FormDinamico = ({
@@ -11,42 +11,55 @@ const FormDinamico = ({
   cssButton = "bg-blue-600 hover:bg-blue-500 text-white",
   cssForm = "flex flex-col",
 }) => {
-  const formik = useFormik({
-    initialValues,
-    validate,
-    onSubmit,
-    enableReinitialize: true,
-  });
+  const [values, setValues] = useState(initialValues);
+
+  useEffect(() => {
+    console.log(initialValues);
+    setValues(initialValues);
+  }, [initialValues]);
 
   return (
-    <form onSubmit={formik.handleSubmit} className={cssForm}>
-      {inputs.map(({ type, label, id }) => {
-        if (type === "hidden") return <input type="hidden" id={id} key={id} />;
+    <Formik
+      initialValues={values}
+      validate={validate}
+      onSubmit={(value, helper) => {
+        onSubmit(value);
+        helper.resetForm();
+      }}
+      enableReinitialize={true}
+    >
+      {({ values, errors, handleChange, handleSubmit }) => (
+        <form onSubmit={handleSubmit} className={cssForm}>
+          {inputs.map(({ type, label, id }) => {
+            if (type === "hidden")
+              return <input type="hidden" id={id} key={id} />;
 
-        return (
-          <ErrorInput error={formik.errors[id]} key={id}>
-            <Input
-              type={type}
-              label={label}
-              id={id}
-              value={formik.values[id]}
-              onChange={formik.handleChange}
-            />
-          </ErrorInput>
-        );
-      })}
-      <div className="flex justify-center mt-3">
-        <button
-          type="submit"
-          className={
-            cssButton +
-            " py-2 min-w-[100px] text-center rounded transition-colors"
-          }
-        >
-          {btnSubmit}
-        </button>
-      </div>
-    </form>
+            return (
+              <ErrorInput error={errors[id]} key={id}>
+                <Input
+                  type={type}
+                  label={label}
+                  id={id}
+                  value={values[id]}
+                  onChange={handleChange}
+                />
+              </ErrorInput>
+            );
+          })}
+          <div className="flex justify-center mt-3">
+            <button
+              type="submit"
+              className={
+                cssButton +
+                " py-2 min-w-[100px] text-center rounded transition-colors"
+              }
+            >
+              {btnSubmit}
+            </button>
+          </div>
+        </form>
+      )}
+    </Formik>
   );
 };
 

@@ -1,9 +1,13 @@
 import React from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import CrearMateria from "../administrador/CrearMateria";
+import CrearPlan from "../administrador/CrearPlan";
 import CrearUsuario from "../administrador/CrearUsuario";
 import ListadoAdmin from "../administrador/ListadoAdmin";
 import ListadoCarrera from "../administrador/ListadoCarrera";
 import ListadoDocentes from "../administrador/ListadoDocentes";
+import ListadoMateria from "../administrador/ListadoMateria";
+import ListadoPlan from "../administrador/ListadoPlan";
 import ListadoUsuario from "../administrador/ListadoUsuario";
 import Academico from "../alumno/Academico";
 import Correlativas from "../alumno/Correlativas";
@@ -148,6 +152,30 @@ const router = createBrowserRouter([
   {
     path: "/administrador/listadocarreras",
     element: <ListadoCarrera />,
+  },
+  {
+    path: "/administrador/listadomateria",
+    element: <ListadoMateria />,
+  },
+  {
+    path: "/administrador/crearmateria",
+    element: <CrearMateria modificacion={false} />,
+  },
+  {
+    path: "/administrador/modificarmateria/:id",
+    element: <CrearMateria modificacion={true} />,
+  },
+  {
+    path: "/administrador/crearplan/:id",
+    element: <CrearPlan />,
+  },
+  {
+    path: "/administrador/crearplan/:id",
+    element: <CrearPlan />,
+  },
+  {
+    path: "/administrador/listadoplan/:id",
+    element: <ListadoPlan />,
   },
 ]);
 

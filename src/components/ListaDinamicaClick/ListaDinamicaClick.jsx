@@ -3,8 +3,10 @@ import React, { useState, useEffect } from "react";
 const ListaDinamicaClick = ({
   listado = [],
   onClickEvent,
-  cssClass = "w-1/2",
+  cssClass = "w-full",
   cssClassHeader = "bg-blue-500 text-white",
+  skip = [],
+  headerEnable = true,
 }) => {
   const [lista, setLista] = useState([]);
 
@@ -14,36 +16,55 @@ const ListaDinamicaClick = ({
 
   return (
     <table className={cssClass + " text-center"}>
-      <thead className={cssClassHeader}>
-        <ListaHeader names={[...Object.keys(listado[0])]} />
-      </thead>
+      {headerEnable && (
+        <thead className={cssClassHeader}>
+          <ListaHeader names={[...Object.keys(listado[0])]} skip={skip} />
+        </thead>
+      )}
+
       <tbody>
-        {lista.map((value) => (
-          <ListaItem value={value} key={value.id} action={onClickEvent} />
+        {lista.map((value, index) => (
+          <ListaItem
+            value={value}
+            key={index}
+            action={onClickEvent}
+            skip={skip}
+          />
         ))}
       </tbody>
     </table>
   );
 };
 
-const ListaHeader = ({ names = [] }) => (
+const ListaHeader = ({ names = [], skip = [] }) => (
   <tr>
-    {names.map((name) => (
-      <th key={name} className="p-2">
-        {name}
-      </th>
-    ))}
+    {names.map((name) => {
+      if (!skip.includes(name))
+        return (
+          <th key={name} className="p-2">
+            {name}
+          </th>
+        );
+      else return null;
+    })}
   </tr>
 );
 
-const ListaItem = ({ value, action }) => {
+const ListaItem = ({ value, action, skip = [] }) => {
   return (
-    <tr onClick={() => action(value.id)}>
-      {Object.keys(value).map((key) => (
-        <td key={key + value.id} className="py-2">
-          {value[key]}
-        </td>
-      ))}
+    <tr
+      onClick={() => action(value)}
+      className="hover:cursor-pointer hover:bg-gray-300"
+    >
+      {Object.keys(value).map((key, index) => {
+        if (!skip.includes(key))
+          return (
+            <td key={key + value.id + index} className="py-2">
+              {value[key]}
+            </td>
+          );
+        else return null;
+      })}
     </tr>
   );
 };

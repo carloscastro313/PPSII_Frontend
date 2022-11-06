@@ -1,13 +1,14 @@
 import React, { useCallback, useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { createSearchParams, useNavigate } from "react-router-dom";
 import Button from "../../components/Button/Button";
 import Container from "../../components/Container/Container";
 import Layout from "../../components/Layout/Layout";
-import ListaDinamica from "../../components/ListaDinamica/ListaDinamica";
+import ListaDinamicaClick from "../../components/ListaDinamicaClick/ListaDinamicaClick";
 import Spinner from "../../components/Spinner/Spinner";
 import HTTP from "../../config/axios";
 import ErrorContext from "../../contexts/errorPopup/ErrorContext";
 import useProtectedRoute from "../../hooks/useProtectedRoute";
+import CarreraOptions from "../../modals/CarreraOptions";
 import FormCarrera from "../../modals/FormCarrera";
 
 const mock = [
@@ -29,10 +30,10 @@ const ListadoCarrera = () => {
   const { showError } = useContext(ErrorContext);
 
   const [carreras, setCarreras] = useState([]);
-  const [modal, setModal] = useState(false);
+  const [form, setForm] = useState(false);
   const [modificar, setModificar] = useState(false);
   const [values, setValues] = useState(null);
-
+  const [options, setOptions] = useState(false);
   const [fetching, setFetching] = useState(true);
 
   useProtectedRoute("administrador");
@@ -49,47 +50,76 @@ const ListadoCarrera = () => {
   }, []);
 
   useEffect(() => {
-    if (!modal) fetch();
-  }, [fetch, modal]);
+    if (!form) fetch();
+  }, [fetch, form]);
 
-  const actions = [
-    {
-      name: "Modificar",
-      onClickEvent: (values) => {
-        // navigate("/administrador/modificardocente/" + Legajo);
-      },
-      cssClass: "bg-yellow-600 hover:bg-yellow-500 text-white",
-    },
-    {
-      name: "Eliminar",
-      onClickEvent: (values) => {
-        //   HTTP.delete("/usuarios/" + Legajo)
-        //     .then(() => fetch())
-        //     .catch(({ reponse: { data } }) => showError(data.msg));
-      },
-      cssClass: "bg-red-600 hover:bg-red-500 text-white",
-    },
-  ];
+  const openOptions = (value) => {
+    console.log(carreras.find((c) => c.Id === value["N°"]));
+    setValues(carreras.find((c) => c.Id === value["N°"]));
+    setOptions(true);
+  };
+
+  const closeOptions = () => {
+    setValues(null);
+    setOptions(false);
+  };
+
+  const openForm = () => {
+    setOptions(false);
+    setModificar(true);
+    setForm(true);
+  };
+
+  const closeFrom = () => {
+    setForm(false);
+    setValues(null);
+    setModificar(false);
+  };
+
+  const generarPlan = () => {
+    navigate({
+      pathname: "/administrador/crearplan/" + values["Id"],
+      search: createSearchParams({
+        plan: values.PlanActual,
+      }).toString(),
+    });
+  };
+
+  const verPlanes = () => {
+    navigate({
+      pathname: "/administrador/listadoplan/" + values["Id"],
+    });
+  };
 
   return (
     <>
-      <FormCarrera closeModal={setModal} visible={modal} />
+      <FormCarrera
+        closeModal={closeFrom}
+        visible={form}
+        modifcar={modificar}
+        value={values}
+      />
+      <CarreraOptions
+        show={options}
+        closeModal={closeOptions}
+        ModificarMateria={openForm}
+        GenerarPlan={generarPlan}
+        VerPlanes={verPlanes}
+        carrera={values}
+      />
       <Layout>
         <Container>
           <div className="h-1/5 flex justify-between">
             <h1 className="mb-3 text-xl">Listado de carrera</h1>
             <div>
-              <Button
-                name="Crear usuario"
-                onClickEvent={() => setModal(true)}
-              />
+              <Button name="Crear usuario" onClickEvent={() => setForm(true)} />
             </div>
           </div>
           <div className="h-3/4">
             <div className={`h-full overflow-auto ${!fetching && "bg-white"}`}>
               {carreras.length > 0 && (
-                <ListaDinamica
-                  actions={actions}
+                <ListaDinamicaClick
+                  onClickEvent={openOptions}
                   listado={formarter(carreras)}
                 />
               )}
@@ -113,10 +143,11 @@ const ListadoCarrera = () => {
 };
 
 const formarter = (data = []) => {
-  return data.map(({ Id, Descripcion }) => {
+  return data.map(({ Id, Descripcion, PlanActual }) => {
     return {
       "N°": Id,
       Nombre: Descripcion,
+      Plan: PlanActual === "" ? "-" : PlanActual,
     };
   });
 };

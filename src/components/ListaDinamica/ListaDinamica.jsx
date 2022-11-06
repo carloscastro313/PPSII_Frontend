@@ -21,13 +21,13 @@ const ListaDinamica = ({
         <ListaHeader names={[...Object.keys(listado[0]), "acciones"]} />
       </thead>
       <tbody>
-        {lista.map((value) => (
-          <ListaItem value={value} key={value.id}>
+        {lista.map((value, index) => (
+          <ListaItem value={value} key={index}>
             {actionsArr.map((action) => (
               <Button
                 onClickEvent={() => action.onClickEvent(value)}
                 name={action.name}
-                key={action.name}
+                key={action.name + index}
                 cssClass={action.cssClass}
               />
             ))}
@@ -48,11 +48,11 @@ const ListaHeader = ({ names = [] }) => (
   </tr>
 );
 
-const ListaItem = ({ value, entries = [], children }) => {
+const ListaItem = ({ value, entries = [], children, i }) => {
   return (
     <tr>
-      {Object.keys(value).map((key) => (
-        <td key={key + value.id}>{value[key]}</td>
+      {Object.keys(value).map((key, index) => (
+        <td key={key + index + i}>{value[key]}</td>
       ))}
       <td className="flex justify-center gap-2 p-1">{children}</td>
     </tr>
