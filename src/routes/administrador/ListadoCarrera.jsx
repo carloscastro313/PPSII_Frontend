@@ -27,14 +27,12 @@ const mock = [
 ];
 
 const ListadoCarrera = () => {
-  const { showError } = useContext(ErrorContext);
-
   const [carreras, setCarreras] = useState([]);
+  const [fetching, setFetching] = useState(true);
   const [form, setForm] = useState(false);
   const [modificar, setModificar] = useState(false);
   const [values, setValues] = useState(null);
   const [options, setOptions] = useState(false);
-  const [fetching, setFetching] = useState(true);
 
   useProtectedRoute("administrador");
 

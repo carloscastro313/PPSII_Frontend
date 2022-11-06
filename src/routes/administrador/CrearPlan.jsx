@@ -113,8 +113,12 @@ const CrearPlan = () => {
       ]);
       setSeleccion(aux);
     }
+    const len = getCuatrimestre(aux, duracion);
+    setDuracion(len);
 
-    setDuracion(getCuatrimestre(aux, duracion));
+    if (!isSelect && len < cuatrimestre) {
+      setCuatrimestre(len);
+    }
   };
 
   return (
