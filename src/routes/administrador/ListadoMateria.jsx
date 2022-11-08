@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Button from "../../components/Button/Button";
 import Container from "../../components/Container/Container";
+import ExcelExport from "../../components/ExcelExport/ExcelExport";
 import Layout from "../../components/Layout/Layout";
 import ListaDinamica from "../../components/ListaDinamica/ListaDinamica";
 import Spinner from "../../components/Spinner/Spinner";
@@ -45,7 +46,8 @@ const ListadoMateria = () => {
       <Container>
         <div className="h-1/5 flex justify-between">
           <h1 className="mb-3 text-xl">Listado de materia</h1>
-          <div>
+          <div className="h-[50px] flex gap-3">
+            <ExcelExport filename="administradores" lista={materias} />
             <Button
               name="Crear usuario"
               onClickEvent={() => navigate("/administrador/crearmateria")}

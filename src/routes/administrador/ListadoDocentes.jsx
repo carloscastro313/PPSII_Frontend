@@ -3,6 +3,7 @@ import { useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import Button from "../../components/Button/Button";
 import Container from "../../components/Container/Container";
+import ExcelExport from "../../components/ExcelExport/ExcelExport";
 import Layout from "../../components/Layout/Layout";
 import ListaDinamica from "../../components/ListaDinamica/ListaDinamica";
 import Spinner from "../../components/Spinner/Spinner";
@@ -57,7 +58,8 @@ const ListadoDocentes = () => {
       <Container>
         <div className="h-1/5 flex justify-between">
           <h1 className="mb-3 text-xl">Listado de secretaria</h1>
-          <div>
+          <div className="h-[50px] flex gap-3">
+            <ExcelExport filename="docentes" lista={docenteFormat(usuarios)} />
             <Button
               name="Crear usuario"
               onClickEvent={() => navigate("/administrador/creardocente")}
