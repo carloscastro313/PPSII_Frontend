@@ -111,7 +111,7 @@ const ListadoCarrera = () => {
           <div className="h-1/5 flex justify-between">
             <h1 className="mb-3 text-xl">Listado de carrera</h1>
             <div className="h-[50px] flex gap-3">
-              <ExcelExport filename="secretaria" lista={formarter(carreras)} />
+              <ExcelExport filename="carreras" lista={formarter(carreras)} />
               <Button name="Crear usuario" onClickEvent={() => setForm(true)} />
             </div>
           </div>
