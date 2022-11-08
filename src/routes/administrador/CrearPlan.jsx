@@ -8,6 +8,7 @@ import Spinner from "../../components/Spinner/Spinner";
 import HTTP from "../../config/axios";
 import ErrorContext from "../../contexts/errorPopup/ErrorContext";
 import useProtectedRoute from "../../hooks/useProtectedRoute";
+import MateriaCronograma from "../../modals/MateriaCronograma";
 
 const CrearPlan = () => {
   const { showError } = useContext(ErrorContext);
@@ -17,6 +18,8 @@ const CrearPlan = () => {
   const [seleccion, setSeleccion] = useState([]);
   const [duracion, setDuracion] = useState(1);
   const [cuatrimestre, setCuatrimestre] = useState(1);
+  const [cronograma, setCronograma] = useState(false);
+  const [materiaSelected, setMateriaSelected] = useState(null);
 
   const params = useParams();
   const navigate = useNavigate();
@@ -82,9 +85,7 @@ const CrearPlan = () => {
         IdCarrera: params["id"],
         Duracion: duracion - 1,
       },
-      materias: seleccion.map((value) => {
-        return { idMateria: value.Id, cuatrimestre: value.cuatrimestre };
-      }),
+      materias: dataTransform(seleccion),
     })
       .then(() => {
         navigate("/administrador/listadocarreras");
@@ -121,8 +122,28 @@ const CrearPlan = () => {
     }
   };
 
+  const openModal = (values) => {
+    setCronograma(true);
+    setMateriaSelected(values);
+  };
+
+  const closeModal = () => {
+    setCronograma(false);
+    setMateriaSelected(null);
+  };
+
   return (
     <Layout>
+      {cronograma && (
+        <MateriaCronograma
+          show={cronograma}
+          materia={materiaSelected}
+          closeModal={closeModal}
+          addMateria={onSelectMateria}
+          seleccionados={seleccion}
+          cuatrimestre={cuatrimestre}
+        />
+      )}
       <Container>
         <h1 className="text-2xl text-center mb-4">Asignar plan de estudio</h1>
         <div className="flex flex-col xl:flex-row xl:justify-between gap-3 mb-3">
@@ -132,7 +153,7 @@ const CrearPlan = () => {
               {materias.length > 0 && (
                 <ListaDinamicaClick
                   onClickEvent={(values) => {
-                    onSelectMateria(values, true);
+                    openModal(values);
                   }}
                   listado={materias}
                   skip={["Id"]}
@@ -172,7 +193,7 @@ const CrearPlan = () => {
                   }}
                   listado={filterCuatrimestre(seleccion, cuatrimestre)}
                   headerEnable={false}
-                  skip={["Id", "cuatrimestre"]}
+                  skip={["Id", "cuatrimestre", "cronograma"]}
                 />
               )}
               {seleccion.length === 0 && (
@@ -258,6 +279,24 @@ const createStrError = (arr = []) => {
     }
 
     return res;
+  });
+
+  return res;
+};
+
+const dataTransform = (arr = []) => {
+  let res = [];
+
+  arr.forEach(({ Id, Descripcion, cuatrimestre, cronograma }) => {
+    cronograma.forEach(({ IdTurno, IdFranjaHoraria, Dia }) => {
+      res.push({
+        IdMateria: Id,
+        Cuatrimestre: cuatrimestre,
+        IdTurno,
+        IdFranjaHoraria,
+        Dia,
+      });
+    });
   });
 
   return res;
