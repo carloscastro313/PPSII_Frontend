@@ -8,6 +8,7 @@ import Spinner from "../../components/Spinner/Spinner";
 import HTTP from "../../config/axios";
 import ErrorContext from "../../contexts/errorPopup/ErrorContext";
 import useProtectedRoute from "../../hooks/useProtectedRoute";
+import CronogramaDetalle from "../../modals/CronogramaDetalle";
 import MateriaCronograma from "../../modals/MateriaCronograma";
 
 const CrearPlan = () => {
@@ -20,6 +21,7 @@ const CrearPlan = () => {
   const [cuatrimestre, setCuatrimestre] = useState(1);
   const [cronograma, setCronograma] = useState(false);
   const [materiaSelected, setMateriaSelected] = useState(null);
+  const [detalle, setDetalle] = useState(false);
 
   const params = useParams();
   const navigate = useNavigate();
@@ -129,6 +131,12 @@ const CrearPlan = () => {
   const closeModal = () => {
     setCronograma(false);
     setMateriaSelected(null);
+    setDetalle(false);
+  };
+
+  const openDetalle = (values) => {
+    setDetalle(true);
+    setMateriaSelected(values);
   };
 
   return (
@@ -141,6 +149,14 @@ const CrearPlan = () => {
           addMateria={onSelectMateria}
           seleccionados={seleccion}
           cuatrimestre={cuatrimestre}
+        />
+      )}
+      {detalle && (
+        <CronogramaDetalle
+          closeModal={closeModal}
+          handlerUnselect={onSelectMateria}
+          materiaCronograma={materiaSelected}
+          show={detalle}
         />
       )}
       <Container>
@@ -188,7 +204,7 @@ const CrearPlan = () => {
               {seleccion.length > 0 && (
                 <ListaDinamicaClick
                   onClickEvent={(values) => {
-                    onSelectMateria(values, false);
+                    openDetalle(values);
                   }}
                   listado={filterCuatrimestre(seleccion, cuatrimestre)}
                   headerEnable={false}

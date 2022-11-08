@@ -25,7 +25,6 @@ const MateriaCronograma = ({
   const [franjaHorariaInput, setFranjaHorariaInput] = useState([]);
   const [diaInput, setDiaInput] = useState([]);
   const [turnoInput, setturnoInput] = useState([]);
-  const [checkbox, setCheckbox] = useState([false, false, false]);
 
   const fetch = useCallback(async () => {
     setFetching(true);
@@ -192,7 +191,7 @@ const existeCronograma = (arr = [], cronograma, cuatrimestre) => {
       if (
         Dia === cronograma.Dia &&
         IdTurno === cronograma.IdTurno &&
-        IdFranjaHoraria === cronograma.IdFranjaHoraria
+        checkHorario(IdFranjaHoraria, cronograma.IdFranjaHoraria)
       ) {
         result = true;
       }
@@ -200,6 +199,12 @@ const existeCronograma = (arr = [], cronograma, cuatrimestre) => {
   });
 
   return result;
+};
+
+const checkHorario = (h1, h2) => {
+  if (h2 == 3 || h1 == 3) return true;
+
+  return h1 == h2;
 };
 
 export default MateriaCronograma;
