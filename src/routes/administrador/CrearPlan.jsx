@@ -38,9 +38,8 @@ const CrearPlan = () => {
           "/administraciones/planEstudio/" + searchParams.get("plan")
         )
       ).data;
-      const aux = plan.materias.map((value) => {
-        return { ...value, cuatrimestre: parseInt(value.cuatrimestre) };
-      });
+      const aux = dataFetchTransform(plan.materias);
+
       const materiasAnteriores = aux.map(({ Id }) => {
         return Id;
       });
@@ -298,6 +297,35 @@ const dataTransform = (arr = []) => {
       });
     });
   });
+
+  return res;
+};
+
+const dataFetchTransform = (arr = []) => {
+  let res = [];
+  for (let i = 0; i < arr.length; i++) {
+    let index = res.findIndex((value) => value.Id === arr[i].Id);
+    if (index === -1) {
+      res.push({
+        Id: arr[i].Id,
+        Descripcion: arr[i].Descripcion,
+        cuatrimestre: parseInt(arr[i].cuatrimestre),
+        cronograma: [
+          {
+            IdTurno: arr[i].IdTurno,
+            IdFranjaHoraria: arr[i].IdFranjaHoraria,
+            Dia: arr[i].Dia,
+          },
+        ],
+      });
+    } else {
+      res[index].cronograma.push({
+        IdTurno: arr[i].IdTurno,
+        IdFranjaHoraria: arr[i].IdFranjaHoraria,
+        Dia: arr[i].Dia,
+      });
+    }
+  }
 
   return res;
 };
