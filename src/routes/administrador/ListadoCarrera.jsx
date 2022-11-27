@@ -90,6 +90,15 @@ const ListadoCarrera = () => {
     });
   };
 
+  const crearCronograma = () => {
+    navigate({
+      pathname: "/administrador/cronograma/" + values["Id"],
+      search: createSearchParams({
+        plan: values.PlanActual,
+      }).toString(),
+    });
+  };
+
   return (
     <>
       <FormCarrera
@@ -105,6 +114,7 @@ const ListadoCarrera = () => {
         GenerarPlan={generarPlan}
         VerPlanes={verPlanes}
         carrera={values}
+        CrearCronograma={crearCronograma}
       />
       <Layout>
         <Container>

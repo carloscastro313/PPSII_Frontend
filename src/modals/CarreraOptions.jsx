@@ -12,6 +12,7 @@ const CarreraOptions = ({
   ModificarMateria,
   GenerarPlan,
   VerPlanes,
+  CrearCronograma,
 }) => {
   return (
     <Modal show={show}>
@@ -44,12 +45,19 @@ const CarreraOptions = ({
             onClickEvent={() => GenerarPlan()}
           />
           {carrera?.PlanActual !== "" && (
-            <Button
-              name="Ver planes"
-              cssClass="bg-green-600 hover:bg-green-500 text-white"
-              onClickEvent={() => VerPlanes()}
-            />
+            <>
+              <Button
+                name="Ver planes"
+                cssClass="bg-green-600 hover:bg-green-500 text-white"
+                onClickEvent={() => VerPlanes()}
+              />
+              <Button
+                name="Cronograma de carrera"
+                onClickEvent={() => CrearCronograma()}
+              />
+            </>
           )}
+
           <Button
             name="Baja"
             cssClass="bg-red-600 hover:bg-red-300 text-white"

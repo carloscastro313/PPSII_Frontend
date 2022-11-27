@@ -8,8 +8,10 @@ import Spinner from "../../components/Spinner/Spinner";
 import HTTP from "../../config/axios";
 import ErrorContext from "../../contexts/errorPopup/ErrorContext";
 import useProtectedRoute from "../../hooks/useProtectedRoute";
+import CronogramaDetalle from "../../modals/CronogramaDetalle";
+import MateriaCronograma from "../../modals/MateriaCronograma";
 
-const CrearPlan = () => {
+const CrearCronograma = () => {
   const { showError } = useContext(ErrorContext);
 
   const [fetching, setFetching] = useState(true);
@@ -17,6 +19,9 @@ const CrearPlan = () => {
   const [seleccion, setSeleccion] = useState([]);
   const [duracion, setDuracion] = useState(1);
   const [cuatrimestre, setCuatrimestre] = useState(1);
+  const [cronograma, setCronograma] = useState(false);
+  const [materiaSelected, setMateriaSelected] = useState(null);
+  const [detalle, setDetalle] = useState(false);
 
   const params = useParams();
   const navigate = useNavigate();
@@ -32,12 +37,11 @@ const CrearPlan = () => {
     if (searchParams.get("plan") != "") {
       const plan = (
         await HTTP.get(
-          "/administraciones/planEstudio/materias/" + searchParams.get("plan")
+          "/administraciones/planEstudio/" + searchParams.get("plan")
         )
       ).data;
-      const aux = plan.materias.map((value) => {
-        return { ...value, cuatrimestre: parseInt(value.cuatrimestre) };
-      });
+      const aux = dataFetchTransform(plan.materias);
+
       const materiasAnteriores = aux.map(({ Id }) => {
         return Id;
       });
@@ -46,11 +50,7 @@ const CrearPlan = () => {
         data.filter((value) => !materiasAnteriores.includes(value.Id))
       );
 
-      setSeleccion(
-        aux.map(({ Id, Descripcion, cuatrimestre }) => {
-          return { Id, Descripcion, cuatrimestre };
-        })
-      );
+      setSeleccion(aux);
 
       setDuracion(getCuatrimestre(aux, plan.planEstudio.Duracion));
     }
@@ -86,9 +86,7 @@ const CrearPlan = () => {
         IdCarrera: params["id"],
         Duracion: duracion - 1,
       },
-      materias: seleccion.map((value) => {
-        return { IdMateria: value.Id, Cuatrimestre: value.cuatrimestre };
-      }),
+      materias: dataTransform(seleccion),
     })
       .then(() => {
         navigate("/administrador/listadocarreras");
@@ -117,12 +115,50 @@ const CrearPlan = () => {
       ]);
       setSeleccion(aux);
     }
+    const len = getCuatrimestre(aux, duracion);
+    setDuracion(len);
 
-    setDuracion(getCuatrimestre(aux, duracion));
+    if (!isSelect && len < cuatrimestre) {
+      setCuatrimestre(len);
+    }
+  };
+
+  const openModal = (values) => {
+    setCronograma(true);
+    setMateriaSelected(values);
+  };
+
+  const closeModal = () => {
+    setCronograma(false);
+    setMateriaSelected(null);
+    setDetalle(false);
+  };
+
+  const openDetalle = (values) => {
+    setDetalle(true);
+    setMateriaSelected(values);
   };
 
   return (
     <Layout>
+      {cronograma && (
+        <MateriaCronograma
+          show={cronograma}
+          materia={materiaSelected}
+          closeModal={closeModal}
+          addMateria={onSelectMateria}
+          seleccionados={seleccion}
+          cuatrimestre={cuatrimestre}
+        />
+      )}
+      {detalle && (
+        <CronogramaDetalle
+          closeModal={closeModal}
+          handlerUnselect={onSelectMateria}
+          materiaCronograma={materiaSelected}
+          show={detalle}
+        />
+      )}
       <Container>
         <h1 className="text-2xl text-center mb-4">Asignar plan de estudio</h1>
         <div className="flex flex-col xl:flex-row xl:justify-between gap-3 mb-3">
@@ -132,7 +168,7 @@ const CrearPlan = () => {
               {materias.length > 0 && (
                 <ListaDinamicaClick
                   onClickEvent={(values) => {
-                    onSelectMateria(values, true);
+                    openModal(values);
                   }}
                   listado={materias}
                   skip={["Id"]}
@@ -168,11 +204,11 @@ const CrearPlan = () => {
               {seleccion.length > 0 && (
                 <ListaDinamicaClick
                   onClickEvent={(values) => {
-                    onSelectMateria(values, false);
+                    openDetalle(values);
                   }}
                   listado={filterCuatrimestre(seleccion, cuatrimestre)}
                   headerEnable={false}
-                  skip={["Id", "cuatrimestre"]}
+                  skip={["Id", "cuatrimestre", "cronograma"]}
                 />
               )}
               {seleccion.length === 0 && (
@@ -263,4 +299,51 @@ const createStrError = (arr = []) => {
   return res;
 };
 
-export default CrearPlan;
+const dataTransform = (arr = []) => {
+  let res = [];
+
+  arr.forEach(({ Id, Descripcion, cuatrimestre, cronograma }) => {
+    cronograma.forEach(({ IdTurno, IdFranjaHoraria, Dia }) => {
+      res.push({
+        IdMateria: Id,
+        Cuatrimestre: cuatrimestre,
+        IdTurno,
+        IdFranjaHoraria,
+        Dia,
+      });
+    });
+  });
+
+  return res;
+};
+
+const dataFetchTransform = (arr = []) => {
+  let res = [];
+  for (let i = 0; i < arr.length; i++) {
+    let index = res.findIndex((value) => value.Id === arr[i].Id);
+    if (index === -1) {
+      res.push({
+        Id: arr[i].Id,
+        Descripcion: arr[i].Descripcion,
+        cuatrimestre: parseInt(arr[i].cuatrimestre),
+        cronograma: [
+          {
+            IdTurno: arr[i].IdTurno,
+            IdFranjaHoraria: arr[i].IdFranjaHoraria,
+            Dia: arr[i].Dia,
+          },
+        ],
+      });
+    } else {
+      res[index].cronograma.push({
+        IdTurno: arr[i].IdTurno,
+        IdFranjaHoraria: arr[i].IdFranjaHoraria,
+        Dia: arr[i].Dia,
+      });
+    }
+  }
+
+  return res;
+};
+
+export default CrearCronograma;

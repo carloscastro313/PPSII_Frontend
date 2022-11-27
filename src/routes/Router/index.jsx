@@ -1,5 +1,6 @@
 import React from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import CrearCronograma from "../administrador/CrearCronograma";
 import CrearMateria from "../administrador/CrearMateria";
 import CrearPlan from "../administrador/CrearPlan";
 import CrearUsuario from "../administrador/CrearUsuario";
@@ -176,6 +177,10 @@ const router = createBrowserRouter([
   {
     path: "/administrador/listadoplan/:id",
     element: <ListadoPlan />,
+  },
+  {
+    path: "/administrador/cronograma/:id",
+    element: <CrearCronograma />,
   },
 ]);
 
