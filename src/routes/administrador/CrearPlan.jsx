@@ -4,6 +4,7 @@ import Button from "../../components/Button/Button";
 import Container from "../../components/Container/Container";
 import Layout from "../../components/Layout/Layout";
 import ListaDinamicaClick from "../../components/ListaDinamicaClick/ListaDinamicaClick";
+import LoadingModal from "../../components/LoadingModal/LoadingModal";
 import Spinner from "../../components/Spinner/Spinner";
 import HTTP from "../../config/axios";
 import ErrorContext from "../../contexts/errorPopup/ErrorContext";
@@ -123,6 +124,7 @@ const CrearPlan = () => {
 
   return (
     <Layout>
+      <LoadingModal show={fetching} />
       <Container>
         <h1 className="text-2xl text-center mb-4">Asignar plan de estudio</h1>
         <div className="flex flex-col xl:flex-row xl:justify-between gap-3 mb-3">

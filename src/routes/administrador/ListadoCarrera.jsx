@@ -99,6 +99,24 @@ const ListadoCarrera = () => {
     });
   };
 
+  const modificarCronograma = () => {
+    navigate({
+      pathname: "/administrador/cronograma/modificacion/" + values["Id"],
+      search: createSearchParams({
+        plan: values.PlanActual,
+      }).toString(),
+    });
+  };
+
+  const AsignarDocente = () => {
+    navigate({
+      pathname: "/administrador/cronograma/asignarDocente/" + values["Id"],
+      search: createSearchParams({
+        plan: values.PlanActual,
+      }).toString(),
+    });
+  };
+
   return (
     <>
       <FormCarrera
@@ -115,6 +133,8 @@ const ListadoCarrera = () => {
         VerPlanes={verPlanes}
         carrera={values}
         CrearCronograma={crearCronograma}
+        ModificarCronograma={modificarCronograma}
+        AsignarDocente={AsignarDocente}
       />
       <Layout>
         <Container>

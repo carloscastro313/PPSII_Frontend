@@ -3,13 +3,15 @@ import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import Button from "../../components/Button/Button";
 import Container from "../../components/Container/Container";
 import Layout from "../../components/Layout/Layout";
+import LoadingModal from "../../components/LoadingModal/LoadingModal";
 import HTTP from "../../config/axios";
 import ErrorContext from "../../contexts/errorPopup/ErrorContext";
 import useProtectedRoute from "../../hooks/useProtectedRoute";
 import GenerarTurno from "../../modals/GenerarTurno";
 import ListaCronograma from "../../modals/ListaCronograma";
+import SelectDocente from "../../modals/SelectDocente";
 
-const CrearCronograma = () => {
+const CrearCronograma = ({ modificacion = false }) => {
   useProtectedRoute("administrador");
   const { showError } = useContext(ErrorContext);
 
@@ -19,6 +21,7 @@ const CrearCronograma = () => {
   const [showModal, setShowModal] = useState(false);
   const [modificar, setModificar] = useState(false);
   const [showLista, setShowLista] = useState(false);
+  const [showSelect, setShowSelect] = useState(false);
 
   const [fetching, setFetching] = useState(true);
   const [materias, setMaterias] = useState([]);
@@ -40,13 +43,12 @@ const CrearCronograma = () => {
       ),
       HTTP.get("/administraciones/franjaHoraria"),
       HTTP.get("/administraciones/turno"),
-      HTTP.get("/administraciones//planEstudio/" + searchParams.get("plan")),
+      HTTP.get("/administraciones/planEstudio/" + searchParams.get("plan")),
     ]);
 
     setMaterias(res[0].data.materias);
     setFranjaHoraria(res[1].data);
     setTurnos(res[2].data);
-    console.log(res[3].data.materiasDivision);
     setCronogramasCreados(res[3].data.materiasDivision);
     setFetching(false);
   }, []);
@@ -112,6 +114,10 @@ const CrearCronograma = () => {
     setcronogramasModificados(filter);
   };
 
+  const seleccionarDocente = () => {
+    setShowSelect(true);
+  };
+
   const handlerSubmit = () => {
     if (!checkCronograma(materias, cronogramas, cronogramasCreados)) {
       showError("Algunas materias no tienen turnos");
@@ -168,8 +174,17 @@ const CrearCronograma = () => {
           selectCrono={selectCronogramaModificar}
         />
       )}
+      {showModal && (
+        <SelectDocente
+          show={showSelect}
+          closeModal={() => setShowSelect(false)}
+        />
+      )}
+      <LoadingModal show={fetching} />
       <Container>
-        <h1 className="text-2xl text-center mb-4">Asignar plan de estudio</h1>
+        <h1 className="text-2xl text-center mb-4">
+          {!modificacion ? "Crear cronograma" : "Modificar cronograma"}
+        </h1>
         <div className="flex flex-col xl:flex-row xl:justify-between gap-3 mb-3">
           <div className="flex flex-col gap-3 w-1/4">
             <div className="bg-white h-[500px]">
@@ -191,57 +206,70 @@ const CrearCronograma = () => {
             </div>
             {selected && (
               <div>
-                <Button
-                  name="Crear turno"
-                  onClickEvent={() => setShowModal(true)}
-                />
-                <Button
-                  name="Ver turnos"
-                  onClickEvent={() => setShowLista(true)}
-                />
+                {!modificacion ? (
+                  <Button
+                    name="Crear turno"
+                    onClickEvent={() => setShowModal(true)}
+                  />
+                ) : (
+                  <Button
+                    name="Ver turnos"
+                    onClickEvent={() => setShowLista(true)}
+                  />
+                )}
               </div>
             )}
           </div>
-          <div className="flex flex-col gap-3 w-2/6">
-            <div className="bg-white h-[500px]">
-              <p className="text-center p-3 bg-blue-400">Nuevos turnos</p>
-              {selected && (
-                <div className="overflow-auto">
-                  {getCronoId(cronogramas, selected.IdPlanEstudioMateria).map(
-                    (value, index) => (
+          {!modificacion ? (
+            <div className="flex flex-col gap-3 w-full">
+              <div className="bg-white h-[500px]">
+                <p className="text-center p-3 bg-blue-400">Nuevos turnos</p>
+                {selected && (
+                  <div className="overflow-auto">
+                    {getCronoId(cronogramas, selected.IdPlanEstudioMateria).map(
+                      (value, index) => (
+                        <ItemCrono
+                          {...value}
+                          key={index}
+                          onClick={() => deleteTurno(value.index)}
+                        />
+                      )
+                    )}
+                  </div>
+                )}
+              </div>
+            </div>
+          ) : (
+            <div className="flex flex-col gap-3 w-full px-5">
+              <div className="bg-white h-[500px]">
+                <p className="text-center p-3 bg-blue-400">
+                  Turnos modificados
+                </p>
+                {selected && (
+                  <div className="overflow-auto">
+                    {getCronoId(
+                      cronogramasModificados,
+                      selected.IdPlanEstudioMateria
+                    ).map((value) => (
                       <ItemCrono
                         {...value}
-                        key={index}
-                        onClick={() => deleteTurno(value.index)}
+                        key={value.index}
+                        onClick={() => {
+                          deleteModificado(value.index);
+                        }}
                       />
-                    )
-                  )}
-                </div>
-              )}
+                    ))}
+                  </div>
+                )}
+              </div>
             </div>
-          </div>
-          <div className="flex flex-col gap-3 w-2/6">
-            <div className="bg-white h-[500px]">
-              <p className="text-center p-3 bg-blue-400">Turnos modificados</p>
-              {selected && (
-                <div className="overflow-auto">
-                  {getCronoId(
-                    cronogramasModificados,
-                    selected.IdPlanEstudioMateria
-                  ).map((value) => (
-                    <ItemCrono
-                      {...value}
-                      key={value.index}
-                      onClick={() => deleteModificado(value.index)}
-                    />
-                  ))}
-                </div>
-              )}
-            </div>
-          </div>
+          )}
         </div>
         <div className="flex flex-row justify-end">
-          <Button name="Crear" onClickEvent={handlerSubmit} />
+          <Button
+            name={!modificacion ? "Crear" : "Modificar"}
+            onClickEvent={handlerSubmit}
+          />
         </div>
       </Container>
     </Layout>

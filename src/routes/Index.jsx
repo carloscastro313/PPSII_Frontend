@@ -27,6 +27,11 @@ const Index = () => {
                   onClickEvent={() => navigate(route)}
                 />
               ))}
+            <Button
+              name={"Cambiar contraseña"}
+              cssClass="bg-white hover:bg-blue-100 text-black w-full h-12 sm:h-24 sm:w-24"
+              onClickEvent={() => navigate("/cambiarcontraseña")}
+            />
           </div>
         </div>
         <div className="h-1/2 bg-white">Alertas</div>

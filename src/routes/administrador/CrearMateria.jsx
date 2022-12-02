@@ -68,9 +68,9 @@ const CrearMateria = ({ modificacion }) => {
         .then(() => {
           navigate("/administrador/listadomateria");
         })
-        .catch((data) => {
-          console.log(data);
-          //showError(response.data.msg);
+        .catch((error) => {
+          console.log(error);
+          showError(error.data.msg);
         });
     } else {
       HTTP.post("/administraciones/materia", {
@@ -80,9 +80,9 @@ const CrearMateria = ({ modificacion }) => {
         .then(() => {
           navigate("/administrador/listadomateria");
         })
-        .catch((data) => {
-          console.log(data);
-          //showError(response.data.msg);
+        .catch((error) => {
+          console.log(error);
+          showError(error.data.msg);
         });
     }
   };

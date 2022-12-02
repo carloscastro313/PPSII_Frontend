@@ -13,6 +13,8 @@ const CarreraOptions = ({
   GenerarPlan,
   VerPlanes,
   CrearCronograma,
+  ModificarCronograma,
+  AsignarDocente,
 }) => {
   return (
     <Modal show={show}>
@@ -55,13 +57,18 @@ const CarreraOptions = ({
                 name="Cronograma de carrera"
                 onClickEvent={() => CrearCronograma()}
               />
+              <Button
+                name="Modificar cronograma"
+                cssClass="bg-yellow-600 hover:bg-yellow-400 text-white"
+                onClickEvent={() => ModificarCronograma()}
+              />
+              <Button
+                name="Asignar docente a materia"
+                cssClass="bg-purple-500 hover:bg-yellow-400 text-white"
+                onClickEvent={() => AsignarDocente()}
+              />
             </>
           )}
-
-          <Button
-            name="Baja"
-            cssClass="bg-red-600 hover:bg-red-300 text-white"
-          />
         </div>
       </Container>
     </Modal>

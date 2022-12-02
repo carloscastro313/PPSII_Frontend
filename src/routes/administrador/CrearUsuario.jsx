@@ -8,6 +8,7 @@ import LoadingModal from "../../components/LoadingModal/LoadingModal";
 import HTTP from "../../config/axios";
 import ErrorContext from "../../contexts/errorPopup/ErrorContext";
 import crearAlumnoValidation from "../../helpers/crearAlumnoValidation";
+import SelectCarrera from "../../modals/SelectCarrera";
 
 var formInput = [
   {
@@ -55,6 +56,9 @@ const CrearUsuario = ({
 
   const [loading, setLoading] = useState(false);
   const [values, setValues] = useState(initialValues);
+  const [carreras, setCarreras] = useState([]);
+  const [cache, setCache] = useState(null);
+  const [show, setShow] = useState(false);
 
   const params = useParams();
   const navigate = useNavigate();
@@ -79,15 +83,28 @@ const CrearUsuario = ({
             Apellido,
             DNI,
           });
-
-          setLoading(false);
         })
         .catch(({ response }) => {
           console.log(response);
           showError(response.data.msg && "Hubo un error inesperado");
           navigate(redirect);
-        });
+        })
+        .finally(() => setLoading(false));
+    } else if (TipoUsuario === 4) {
+      setLoading(true);
+
+      HTTP.get("/secretarias/carrerasvigentes")
+        .then(({ data }) => {
+          if (data.length === 0) {
+            showError("No hay carreras disponibles en este momento");
+            return;
+          }
+          console.log(data);
+          setCarreras(data);
+        })
+        .finally(() => setLoading(false));
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const submitHandler = (values) => {
@@ -108,8 +125,35 @@ const CrearUsuario = ({
         .catch(({ response: { data } }) => showError(data.msg))
         .finally(() => setLoading(false));
   };
+
+  const showModal = (value) => {
+    setCache(value);
+    setShow(true);
+  };
+
+  const closeModal = () => {
+    setCache(null);
+    setShow(false);
+  };
+
+  const crearAlumno = ({ Id }) => {
+    HTTP.post("/alumnos/", { Alumno: { ...cache, TipoUsuario }, CarreraId: Id })
+      .then(() => {
+        navigate(redirect);
+      })
+      .catch(({ response: { data } }) => showError(data.msg))
+      .finally(() => setLoading(false));
+    closeModal();
+  };
+
   return (
     <Layout>
+      <SelectCarrera
+        closeModal={closeModal}
+        show={show}
+        carreras={carreras}
+        onSelect={crearAlumno}
+      />
       <LoadingModal show={loading} />
       <Container cssClass="w-3/4 lg:w-1/2 min-h-[650px] bg-blue-500">
         <h1 className="text-xl text-center">{title}</h1>
@@ -119,7 +163,9 @@ const CrearUsuario = ({
           <FormDinamico
             inputs={formInput}
             initialValues={values}
-            onSubmit={submitHandler}
+            onSubmit={
+              TipoUsuario === 4 && !modificacion ? showModal : submitHandler
+            }
             btnSubmit={modificacion ? "Modificar" : "Crear"}
             validate={crearAlumnoValidation}
             cssForm="flex flex-col gap-3 mt-5"

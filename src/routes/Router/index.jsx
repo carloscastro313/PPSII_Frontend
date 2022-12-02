@@ -1,9 +1,11 @@
 import React from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import AsignarMateria from "../administrador/AsignarMateria";
 import CrearCronograma from "../administrador/CrearCronograma";
 import CrearMateria from "../administrador/CrearMateria";
 import CrearPlan from "../administrador/CrearPlan";
 import CrearUsuario from "../administrador/CrearUsuario";
+import GenerarInstancia from "../administrador/GenerarInstancia";
 import ListadoAdmin from "../administrador/ListadoAdmin";
 import ListadoCarrera from "../administrador/ListadoCarrera";
 import ListadoDocentes from "../administrador/ListadoDocentes";
@@ -15,11 +17,13 @@ import Correlativas from "../alumno/Correlativas";
 import Inscripcion from "../alumno/Inscripcion";
 import NotasMaterias from "../alumno/NotasMaterias";
 import Plan from "../alumno/Plan";
+import CambiarContraseña from "../CambiarContraseña";
 import Index from "../Index";
 import Login from "../Login";
 import AlumnosAsignados from "../profesor/AlumnosAsignados";
 import CalificarAlumnos from "../profesor/CalificarAlumnos";
 import MateriaAsignadas from "../profesor/MateriaAsignadas";
+import AnotarMateria from "../secretaria/AnotarMateria";
 import ListadoAlumnos from "../secretaria/ListadoAlumnos";
 
 const router = createBrowserRouter([
@@ -30,6 +34,10 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <Index />,
+  },
+  {
+    path: "/cambiarcontraseña",
+    element: <CambiarContraseña />,
   },
   {
     path: "/alumno/plan",
@@ -74,6 +82,20 @@ const router = createBrowserRouter([
   {
     path: "/secretaria/listaAlumnos",
     element: <ListadoAlumnos />,
+  },
+  {
+    path: "/secretaria/crearalumno",
+    element: <CrearUsuario TipoUsuario={4} title="Crear alumno" />,
+  },
+  {
+    path: "/secretaria/modificaralumno/:id",
+    element: (
+      <CrearUsuario modificacion={true} redirect="/secretaria/listaAlumnos" />
+    ),
+  },
+  {
+    path: "/secretaria/asignarmaterias/:id",
+    element: <AnotarMateria isRoute={true} />,
   },
   {
     path: "/administrador/listasecretaria",
@@ -180,7 +202,23 @@ const router = createBrowserRouter([
   },
   {
     path: "/administrador/cronograma/:id",
-    element: <CrearCronograma />,
+    element: <CrearCronograma modificacion={false} />,
+  },
+  {
+    path: "/administrador/cronograma/modificacion/:id",
+    element: <CrearCronograma modificacion={true} />,
+  },
+  {
+    path: "/administrador/cronograma/asignarDocente/:id",
+    element: <AsignarMateria />,
+  },
+  {
+    path: "/administrador/generarInstancia/final",
+    element: <GenerarInstancia />,
+  },
+  {
+    path: "/administrador/generarInstancia/materia",
+    element: <GenerarInstancia materia={true} />,
   },
 ]);
 

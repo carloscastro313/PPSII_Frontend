@@ -61,6 +61,10 @@ export const menuBtns = {
       name: "Listado alumnos",
       route: "/secretaria/listaAlumnos",
     },
+    {
+      name: "Crear alumno",
+      route: "/secretaria/crearalumno",
+    },
   ],
   administrador: [
     {
@@ -82,6 +86,14 @@ export const menuBtns = {
     {
       name: "Listado materias",
       route: "/administrador/listadomateria",
+    },
+    {
+      name: "Instancia inscripcion a final",
+      route: "/administrador/generarInstancia/final",
+    },
+    {
+      name: "Instancia inscripcion a materias",
+      route: "/administrador/generarInstancia/materia",
     },
   ],
 };
