@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import Container from "../../components/Container/Container";
+import ExcelExport from "../../components/ExcelExport/ExcelExport";
 import Layout from "../../components/Layout/Layout";
 import ListaDinamica from "../../components/ListaDinamica/ListaDinamica";
 import HTTP from "../../config/axios";
@@ -34,7 +35,7 @@ const ListadoAlumnos = () => {
     },
     {
       name: "Anotar a materias",
-      onClickEvent: ({ Legajo }) => {
+      onClickEvent: ({ Legajo, Nombre }) => {
         navigate("/secretaria/asignarmaterias/" + Legajo);
       },
       cssClass: "bg-green-600 hover:bg-green-500 text-white px-3",
@@ -44,8 +45,11 @@ const ListadoAlumnos = () => {
   return (
     <Layout>
       <Container>
-        <div className="h-1/5">
-          <h1 className="mb-3 text-xl">Listado de alumnos</h1>
+        <div className="h-1/6 flex justify-between">
+          <h1 className="my-auto text-xl text-white">Listado de alumnos</h1>
+          <div className="h-[50px] my-auto flex gap-3">
+            <ExcelExport filename="carreras" lista={alumnoFormat(usuarios)} />
+          </div>
         </div>
         <div className="h-3/4">
           <div className="h-full bg-white overflow-auto">

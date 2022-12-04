@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import Container from "../../components/Container/Container";
+import ExcelExport from "../../components/ExcelExport/ExcelExport";
 import Layout from "../../components/Layout/Layout";
 import ListaDinamicaClick from "../../components/ListaDinamicaClick/ListaDinamicaClick";
 import LoadingModal from "../../components/LoadingModal/LoadingModal";
@@ -112,11 +113,13 @@ const AlumnosAsignados = () => {
       />
       <LoadingModal show={fetching} />
       <Container>
-        <div className="h-1/5 flex justify-between">
-          <h1 className="mb-3 text-xl">Mis materias</h1>
-          <div className="h-[50px] flex gap-3"></div>
+        <div className="h-1/6 flex justify-between">
+          <h1 className="my-auto text-xl text-white">Mis alumnos</h1>
+          <div className="h-[50px] my-auto flex gap-3">
+            <ExcelExport filename="carreras" lista={formarter(alumnos)} />
+          </div>
         </div>
-        <div className="h-3/4">
+        <div className="h-3/4 mt-3">
           <div className="h-full bg-white overflow-auto">
             {!fetching &&
               (alumnos.length > 0 ? (
@@ -136,6 +139,17 @@ const AlumnosAsignados = () => {
       </Container>
     </Layout>
   );
+};
+
+const formarter = (data = []) => {
+  return data.map(({ Nombre, Apellido, Mail, DNI }) => {
+    return {
+      Nombre,
+      Apellido,
+      Mail,
+      DNI,
+    };
+  });
 };
 
 export default AlumnosAsignados;

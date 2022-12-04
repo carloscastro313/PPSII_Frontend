@@ -5,6 +5,7 @@ import Container from "../../components/Container/Container";
 import ExcelExport from "../../components/ExcelExport/ExcelExport";
 import Layout from "../../components/Layout/Layout";
 import ListaDinamicaClick from "../../components/ListaDinamicaClick/ListaDinamicaClick";
+import LoadingModal from "../../components/LoadingModal/LoadingModal";
 import Spinner from "../../components/Spinner/Spinner";
 import HTTP from "../../config/axios";
 import ErrorContext from "../../contexts/errorPopup/ErrorContext";
@@ -124,6 +125,7 @@ const ListadoCarrera = () => {
         visible={form}
         modifcar={modificar}
         value={values}
+        setFetching={setFetching}
       />
       <CarreraOptions
         show={options}
@@ -136,16 +138,21 @@ const ListadoCarrera = () => {
         ModificarCronograma={modificarCronograma}
         AsignarDocente={AsignarDocente}
       />
+      <LoadingModal show={fetching} />
       <Layout>
         <Container>
-          <div className="h-1/5 flex justify-between">
-            <h1 className="mb-3 text-xl">Listado de carrera</h1>
-            <div className="h-[50px] flex gap-3">
+          <div className="h-1/6 flex justify-between">
+            <h1 className="my-auto text-xl text-white">Listado de carrera</h1>
+            <div className="h-[50px] my-auto flex gap-3">
               <ExcelExport filename="carreras" lista={formarter(carreras)} />
-              <Button name="Crear usuario" onClickEvent={() => setForm(true)} />
+              <Button
+                name="Crear carrera"
+                onClickEvent={() => setForm(true)}
+                cssClass="bg-blue-600 hover:bg-blue-500 text-white p-3"
+              />
             </div>
           </div>
-          <div className="h-3/4">
+          <div className="h-3/4 mt-3">
             <div className={`h-full overflow-auto ${!fetching && "bg-white"}`}>
               {carreras.length > 0 && (
                 <ListaDinamicaClick

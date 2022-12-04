@@ -44,7 +44,7 @@ export const menuBtns = {
       route: "/profesor/materias",
     },
     {
-      name: "Calificar alumnos",
+      name: "Ver finales",
       route: "/profesor/calificar",
     },
   ],

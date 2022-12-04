@@ -8,24 +8,68 @@ const Header = ({ showEvent, isLog = true }) => {
   const { usuario } = useContext(AuthContext);
 
   return (
-    <header className="flex bg-blue-500 px-3">
+    <header className="flex justify-between bg-primary px-3">
       {usuario != null && (
         <IconButton
           onClickEvent={() => showEvent(true)}
-          cssClass="bg-blue-600 hover:bg-blue-400 my-auto"
+          cssClass="bg-black bg-opacity-40 hover:bg-opacity-60 my-auto"
         >
-          <BsList />
+          <BsList className="text-white text-2xl" />
         </IconButton>
       )}
       {usuario != null ? (
-        <Link to="/" className="absolute left-2/4 top-3">
-          UTN
+        <Link to="/" className="logo ">
+          <img src="/logoutnwhite.png" alt="logo"></img>
         </Link>
       ) : (
-        <p className="absolute left-2/4 top-3">UTN</p>
+        <div className="logo">
+          <img src="/logoutnwhite.png" alt="logo"></img>
+        </div>
+      )}
+      {usuario && (
+        <div
+          className={`my-auto ${getBg(
+            usuario.TipoUsuario
+          )} text-white p-2 rounded hidden sm:block`}
+        >
+          <p className="text-white first-letter:uppercase">
+            {usuario.TipoUsuario}
+            {getEmoticon(usuario.TipoUsuario)}
+          </p>
+        </div>
       )}
     </header>
   );
+};
+
+const getEmoticon = (TipoUsuario) => {
+  switch (TipoUsuario) {
+    case "administrador":
+      return "🕵🏼";
+    case "secretaria":
+      return "🖋️";
+    case "docente":
+      return "🍎";
+    case "alumno":
+      return "📚";
+    default:
+      break;
+  }
+};
+
+const getBg = (TipoUsuario) => {
+  switch (TipoUsuario) {
+    case "administrador":
+      return "bg-red-700";
+    case "secretaria":
+      return "bg-green-700";
+    case "docente":
+      return "bg-orange-700";
+    case "alumno":
+      return "bg-blue-700";
+    default:
+      break;
+  }
 };
 
 export default Header;

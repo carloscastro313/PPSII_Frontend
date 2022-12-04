@@ -38,11 +38,11 @@ const VerFinales = () => {
     <Layout>
       <LoadingModal show={fetching} />
       <Container>
-        <div className="h-1/5 flex justify-between">
-          <h1 className="mb-3 text-xl">Mis materias</h1>
+        <div className="h-1/6 flex justify-between">
+          <h1 className="my-auto text-xl text-white">Finales a dictar</h1>
           <div className="h-[50px] flex gap-3"></div>
         </div>
-        <div className="h-3/4">
+        <div className="h-3/4 mt-3">
           <div className="h-full bg-white overflow-auto">
             {!fetching &&
               (materias.length > 0 ? (
@@ -55,7 +55,7 @@ const VerFinales = () => {
               ) : (
                 <div className="flex justify-center h-full">
                   <h1 className="my-auto text-xl">
-                    No tienes materias asignadas
+                    No tienes finales asignadas
                   </h1>
                 </div>
               ))}

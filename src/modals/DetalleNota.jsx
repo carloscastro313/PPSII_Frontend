@@ -7,12 +7,12 @@ import Modal from "../components/Modal/Modal";
 const DetalleNota = ({ show = false, closeModal, notas }) => {
   return (
     <Modal show={show}>
-      <Container cssClass="w-3/4 lg:w-1/4 min-h-[200px] bg-blue-500">
+      <Container cssClass="w-3/4 lg:w-1/4 min-h-[200px] bg-primary">
         <div className="flex justify-between m-auto py-3">
-          <h1 className="my-auto text-xl">Detalle notas</h1>
+          <h1 className="my-auto text-xl text-white">Detalle notas</h1>
           <div>
             <IconButton onClickEvent={closeModal}>
-              <BsX className="text-3xl" />
+              <BsX />
             </IconButton>
           </div>
         </div>

@@ -12,18 +12,20 @@ const SelectDocente = ({
 }) => {
   return (
     <Modal show={show}>
-      <Container cssClass="w-3/4 lg:w-1/4 min-h-[200px] bg-blue-500">
+      <Container cssClass="w-3/4 lg:w-1/4 min-h-[200px] bg-primary">
         <div className="flex justify-between m-auto py-3">
-          <h1 className="my-auto text-xl">Asignar docente a materia</h1>
+          <h1 className="my-auto text-xl text-center text-white">
+            Asignar docente a materia
+          </h1>
           <div>
             <IconButton onClickEvent={closeModal}>
-              <BsX className="text-3xl" />
+              <BsX />
             </IconButton>
           </div>
         </div>
         <div className="flex flex-col gap-3 mt-4">
           <div className="bg-white h-[500px]">
-            <p className="text-center p-3 bg-blue-400">Docentes</p>
+            <p className="text-center p-3 bg-gray-400 text-white">Docentes</p>
             <div className="overflow-auto">
               {docentes.map((value) => (
                 <div

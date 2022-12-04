@@ -12,18 +12,18 @@ const SelectCarrera = ({
 }) => {
   return (
     <Modal show={show}>
-      <Container cssClass="w-3/4 lg:w-1/4 min-h-[200px] bg-blue-500">
+      <Container cssClass="w-3/4 lg:w-1/4 min-h-[200px] bg-primary">
         <div className="flex justify-between m-auto py-3">
-          <h1 className="my-auto text-xl">Carreras disponibles</h1>
+          <h1 className="my-auto text-xl text-white">Carreras disponibles</h1>
           <div>
             <IconButton onClickEvent={closeModal}>
-              <BsX className="text-3xl" />
+              <BsX />
             </IconButton>
           </div>
         </div>
         <div className="flex flex-col gap-3 mt-4">
           <div className="bg-white h-[500px]">
-            <p className="text-center p-3 bg-blue-400">Carreras</p>
+            <p className="text-center p-3 bg-gray-400 text-white">Carreras</p>
             <div className="overflow-auto">
               {carreras.map((value) => (
                 <div

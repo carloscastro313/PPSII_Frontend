@@ -30,16 +30,17 @@ const Academico = () => {
     <Layout>
       <LoadingModal show={fetching} />
       <Container>
-        <div className="h-1/5 flex justify-between">
-          <h1 className="mb-3 text-xl">Estado academico</h1>
+        <div className="h-1/6 flex justify-between">
+          <h1 className="my-auto text-xl text-white">Estado academico</h1>
           <div className="h-[50px] flex gap-3"></div>
         </div>
-        <div className="h-3/4">
+        <div className="h-3/4 mt-3">
           <div className="h-full bg-white overflow-auto">
             {!fetching &&
               (materias.length > 0 ? (
                 <ListaDinamicaClick
                   // actions={actions}
+                  skip={["IdEstadoAcademico"]}
                   listado={filterMaterias(materias, cuatrimestre)}
                 />
               ) : (
@@ -51,7 +52,7 @@ const Academico = () => {
               ))}
           </div>
           <div className="flex flex-row gap-3 bg-gray-400 p-2">
-            <p>Cuatrimestres:</p>
+            <p>Cuatrimestre:</p>
             <select
               value={cuatrimestre}
               onChange={(e) => setCuatrimestre(e.target.value)}

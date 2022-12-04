@@ -66,7 +66,9 @@ const FormDinamico = ({
 const ErrorInput = ({ error, children }) => (
   <div className="h-[90px]">
     {children}
-    {error && <span className="px-3 text-lg text-red-800">{error}</span>}
+    {error && (
+      <span className="px-3 text-lg text-red-500 font-bold">{error}</span>
+    )}
   </div>
 );
 

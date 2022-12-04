@@ -56,17 +56,18 @@ const ListadoDocentes = () => {
   return (
     <Layout>
       <Container>
-        <div className="h-1/5 flex justify-between">
-          <h1 className="mb-3 text-xl">Listado de secretaria</h1>
-          <div className="h-[50px] flex gap-3">
+        <div className="h-1/6 flex justify-between">
+          <h1 className="text-xl text-white my-auto">Listado de docentes</h1>
+          <div className="h-[50px] my-auto flex gap-3">
             <ExcelExport filename="docentes" lista={docenteFormat(usuarios)} />
             <Button
               name="Crear usuario"
               onClickEvent={() => navigate("/administrador/creardocente")}
+              cssClass="bg-blue-600 hover:bg-blue-500 text-white p-3"
             />
           </div>
         </div>
-        <div className="h-3/4">
+        <div className="h-3/4 mt-3">
           <div className={`h-full overflow-auto ${!fetching && "bg-white"}`}>
             {usuarios.length > 0 && (
               <ListaDinamica

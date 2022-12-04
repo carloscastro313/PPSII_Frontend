@@ -27,10 +27,12 @@ const FinalesAnotados = () => {
   return (
     <Layout>
       <Container>
-        <div className="h-1/5">
-          <h1 className="mb-3 text-xl">Listado de alumnos</h1>
+        <div className="h-1/6">
+          <h1 className="my-auto text-xl text-white">
+            Listado de finales pendientes
+          </h1>
         </div>
-        <div className="h-3/4">
+        <div className="h-3/4 mt-3">
           <div className="h-full bg-white overflow-auto">
             {!fetching &&
               (materias.length > 0 ? (

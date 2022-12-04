@@ -34,8 +34,14 @@ const AnotarMateria = ({ isRoute = false }) => {
       })
       .catch((error) => {
         console.log(error);
-        showError(error.data.msg);
-        navigate("/secretaria/listaAlumnos");
+        if (!error.response.data.permitido) {
+          if (isRoute) {
+            navigate("/secretaria/listaAlumnos");
+          } else {
+            navigate("/");
+          }
+        }
+        showError(error.response.data.msg);
       })
       .finally(() => {
         setFetching(false);
@@ -82,16 +88,22 @@ const AnotarMateria = ({ isRoute = false }) => {
         accept={asignar}
         deny={closeModal}
         titulo={"Confirmar"}
-        mensaje={"¿Esta seguro de asignar esta materia al alumno?"}
+        mensaje={
+          isRoute
+            ? "¿Esta seguro de anotar al alumno a esta materia?"
+            : "¿Esta seguro de anotarse a esta materia?"
+        }
         show={showModal}
       />
       <LoadingModal show={fetching} />
       <Container>
-        <div className="h-1/5 flex flex-col justify-between">
-          <h1 className="mb-3 text-xl">Asignar alumno a materia</h1>
+        <div className="h-1/6 flex flex-col justify-between">
+          <h1 className="my-auto text-xl text-white">
+            {isRoute ? "Anotar alumno a materia" : "Anotarse a materia"}
+          </h1>
           <div className="h-[50px] flex gap-3"></div>
         </div>
-        <div className="h-3/4">
+        <div className="h-3/4 mt-3">
           <div className="h-full bg-white overflow-auto">
             {!fetching &&
               (materias.length > 0 ? (

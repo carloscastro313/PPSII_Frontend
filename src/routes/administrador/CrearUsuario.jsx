@@ -155,8 +155,8 @@ const CrearUsuario = ({
         onSelect={crearAlumno}
       />
       <LoadingModal show={loading} />
-      <Container cssClass="w-3/4 lg:w-1/2 min-h-[650px] bg-blue-500">
-        <h1 className="text-xl text-center">{title}</h1>
+      <Container cssClass="w-3/4 lg:w-1/2 min-h-[650px] bg-primary">
+        <h1 className="text-xl text-center text-white">{title}</h1>
         {loading ? (
           "Cargando..."
         ) : (

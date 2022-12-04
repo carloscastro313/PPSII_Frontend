@@ -31,8 +31,8 @@ const Inscripcion = ({ isRoute = false }) => {
       })
       .catch((error) => {
         console.log(error);
-        showError(error.data.msg);
         navigate("/");
+        showError(error.response.data.msg);
       })
       .finally(() => {
         setFetching(false);
@@ -83,11 +83,11 @@ const Inscripcion = ({ isRoute = false }) => {
       />
       <LoadingModal show={fetching} />
       <Container>
-        <div className="h-1/5 flex flex-col justify-between">
-          <h1 className="mb-3 text-xl">Asignar alumno a materia</h1>
+        <div className="h-1/6 flex flex-col justify-between">
+          <h1 className="my-auto text-xl text-white">Inscribirse a finales</h1>
           <div className="h-[50px] flex gap-3"></div>
         </div>
-        <div className="h-3/4">
+        <div className="h-3/4 mt-3">
           <div className="h-full bg-white overflow-auto">
             {!fetching &&
               (materias.length > 0 ? (
@@ -98,7 +98,9 @@ const Inscripcion = ({ isRoute = false }) => {
                 />
               ) : (
                 <div className="flex justify-center h-full">
-                  <h1 className="my-auto text-xl">No hay materias</h1>
+                  <h1 className="my-auto text-xl">
+                    No hay finales para inscribirse
+                  </h1>
                 </div>
               ))}
           </div>

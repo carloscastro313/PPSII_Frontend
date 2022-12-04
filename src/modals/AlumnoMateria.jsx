@@ -64,10 +64,10 @@ const AlumnoMateria = ({
   };
   return (
     <Modal show={show}>
-      <Container cssClass="w-3/4 lg:w-1/4 min-h-[200px] bg-blue-400">
+      <Container cssClass="w-3/4 lg:w-1/4 min-h-[200px] bg-primary">
         <div className="flex justify-between m-auto p-2">
           <span></span>
-          <h1 className="text-center">Calificar alumno</h1>
+          <h1 className="text-xl text-white ml-7">Calificar alumno</h1>
           <div>
             <IconButton onClickEvent={() => closeModal()}>
               <BsX />
@@ -122,7 +122,9 @@ const AlumnoMateria = ({
               )}
               {checkDesaprobado(Notas) && (
                 <div className="flex gap-3 px-3">
-                  <label htmlFor="desaprobado">Desaprobar cursada</label>
+                  <label htmlFor="desaprobado" className="text-white">
+                    Desaprobar cursada
+                  </label>
                   <input
                     id="desaprobado"
                     type="checkbox"

@@ -23,9 +23,11 @@ const GenerarInstancia = ({ materia = false }) => {
 
   const checkInstancia = useCallback(async () => {
     setLoading(true);
-    const res = await HTTP.get("/administraciones/instanciaInscripcionActivas");
+    const res = await HTTP.get(
+      "/administraciones/checkCanCreateInstancia/" + (materia ? "2" : "1")
+    );
 
-    if (res.data.length > 0) {
+    if (!res.data) {
       navigate("/");
       showError("En este momento ya existe una instancia de inscripcion");
     }
@@ -43,19 +45,26 @@ const GenerarInstancia = ({ materia = false }) => {
       return;
     }
 
-    const inicio = new Date(FechaInicio);
-    const final = new Date(FechaFinal);
+    debugger;
+    const inicio = getDate(FechaInicio);
+    const final = getDate(FechaFinal);
+    const actual = new Date();
+    actual.setHours(0, 0, 0, 0);
+    inicio.setHours(0, 0, 0, 0);
+    final.setHours(0, 0, 0, 0);
 
-    if (
-      inicio.getTime() > final.getTime() ||
-      inicio.getTime() < new Date().getTime() ||
-      final.getTime() < new Date().getTime()
-    ) {
+    if (inicio.getTime() < actual.getTime() || final < actual.getTime()) {
+      showError("Las fechas deben ser mayor al la fecha actual");
+      return;
+    }
+
+    if (inicio.getTime() > final.getTime()) {
       showError("Las fecha de inicio debe ser menor a la fecha final");
       return;
     }
 
     if (materia) {
+      setLoading(true);
       HTTP.post("/administraciones/instanciaInscripcion", {
         FechaFinal,
         FechaInicio,
@@ -69,15 +78,19 @@ const GenerarInstancia = ({ materia = false }) => {
         .catch((error) => {
           console.log(error);
           showError(error.response.data.msg);
-        });
+        })
+        .finally(() => setLoading(false));
     } else {
       if (primeraSemana == "" || segundaSemana == "") {
         showError("Todos los campos son obligatorios");
         return;
       }
 
-      const primera = new Date(primeraSemana);
-      const segunda = new Date(segundaSemana);
+      const primera = getDate(primeraSemana);
+      const segunda = getDate(segundaSemana);
+      primera.setHours(0, 0, 0, 0);
+      segunda.setHours(0, 0, 0, 0);
+
       if (
         inicio.getTime() > primera.getTime() ||
         final.getTime() > segunda.getTime() ||
@@ -96,6 +109,7 @@ const GenerarInstancia = ({ materia = false }) => {
         return;
       }
 
+      setLoading(true);
       HTTP.post("/administraciones/instanciaFinal", {
         newInstanciaInscripcion: {
           FechaFinal,
@@ -113,29 +127,30 @@ const GenerarInstancia = ({ materia = false }) => {
         .catch((error) => {
           console.log(error);
           showError(error.response.data.msg);
-        });
+        })
+        .finally(() => setLoading(true));
     }
   };
 
   return (
     <Layout>
       <LoadingModal show={loading} />
-      <Container cssClass="w-3/4 lg:w-1/4 min-h-[200px] bg-blue-500">
-        <h1 className="text-2xl text-center mb-3">
+      <Container cssClass="w-3/4 lg:w-1/4 min-h-[200px] bg-primary">
+        <h1 className="text-xl text-center mb-3 text-white">
           {!materia
-            ? "Generar instancias de final"
-            : "Generar instancias de materias"}
+            ? "Generar instancia de inscripción a final"
+            : "Generar instancia de inscripción a materias"}
         </h1>
-        <div className="flex flex-col gap-3">
+        <div className="flex flex-col gap-4 mt-5">
           <Input
-            label="Inicio de instancia"
+            label="Inicio inscripción"
             id="FechaInicio"
             type="Date"
             value={FechaInicio}
             onChange={(e) => setFechaInicio(e.target.value)}
           />
           <Input
-            label="Finalizacion de instancia"
+            label="Finalización inscripción"
             id="FechaInicio"
             type="Date"
             value={FechaFinal}
@@ -160,11 +175,23 @@ const GenerarInstancia = ({ materia = false }) => {
             </>
           )}
 
-          <Button name="Generar instancias" onClickEvent={crearInstancia} />
+          <Button
+            name="Generar instancia de inscripción"
+            onClickEvent={crearInstancia}
+          />
         </div>
       </Container>
     </Layout>
   );
+};
+
+const getDate = (dateStr) => {
+  var dateArray = dateStr.split("-");
+  var year = dateArray[0];
+  var month = parseInt(dateArray[1], 10) - 1;
+  var date = dateArray[2];
+
+  return new Date(year, month, date);
 };
 
 export default GenerarInstancia;

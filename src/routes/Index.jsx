@@ -12,29 +12,28 @@ const Index = () => {
   const navigate = useNavigate();
   return (
     <Layout>
-      <Container>
+      <Container cssClass="w-[480px] bg-primary">
         <div className="h-1/2">
-          <h1 className="mb-3 text-xl">
+          <h1 className="mb-3 text-xl text-white">
             Bienvenido {usuario && usuario.Nombre}
           </h1>
-          <div className="flex flex-col w-full sm:flex-wrap sm:flex-row gap-3 overflow-x-auto max-h-60">
+          <div className="flex w-full flex-wrap flex-col gap-3 overflow-x-auto">
             {usuario &&
               menuBtns[usuario.TipoUsuario].map(({ name, route }) => (
                 <Button
                   name={name}
-                  cssClass="bg-white hover:bg-blue-100 text-black w-full h-12 sm:h-24 sm:w-24"
+                  cssClass="bg-white hover:bg-blue-100 text-black w-full h-34"
                   key={name}
                   onClickEvent={() => navigate(route)}
                 />
               ))}
             <Button
               name={"Cambiar contraseña"}
-              cssClass="bg-white hover:bg-blue-100 text-black w-full h-12 sm:h-24 sm:w-24"
+              cssClass="bg-white hover:bg-blue-100 text-black w-full w-34 h-34"
               onClickEvent={() => navigate("/cambiarcontraseña")}
             />
           </div>
         </div>
-        <div className="h-1/2 bg-white">Alertas</div>
       </Container>
     </Layout>
   );

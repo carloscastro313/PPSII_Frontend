@@ -36,8 +36,8 @@ const Login = () => {
   return (
     <Layout>
       <LoadingModal show={loading} />
-      <div className="h-full flex justify-center place-items-center">
-        <div className="w-80 h-80 bg-blue-300 rounded">
+      <div className="h-full flex justify-center place-items-center text-white">
+        <div className="w-80 h-80 bg-primary rounded">
           <h1 className="text-2xl text-center my-4">Iniciar sesión</h1>
           <FormDinamico
             initialValues={initialValues}
@@ -45,7 +45,13 @@ const Login = () => {
             validate={loginValidation}
             inputs={formInput}
             btnSubmit="Ingresar"
+            cssButton="bg-gray-500 hover:bg-gray-700 text-white"
           />
+        </div>
+      </div>
+      <div className="footer">
+        <div>
+          <p></p>
         </div>
       </div>
     </Layout>

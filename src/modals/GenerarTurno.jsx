@@ -56,10 +56,10 @@ const GenerarTurno = ({
 
   return (
     <Modal show={show}>
-      <Container cssClass="w-3/4 lg:w-1/4 min-h-[200px] bg-blue-500">
+      <Container cssClass="w-3/4 lg:w-1/4 min-h-[200px] bg-primary">
         <div className="flex justify-between m-auto p-2">
           <span></span>
-          <h1 className="text-center">Cronograma</h1>
+          <h1 className="text-center text-white ml-4 my-auto">Cronograma</h1>
           <div>
             <IconButton onClickEvent={() => closeModal(false)}>
               <BsX />
@@ -67,8 +67,8 @@ const GenerarTurno = ({
           </div>
         </div>
         <div className="flex flex-col gap-3">
-          <div className="flex flex-col">
-            <p>Turnos</p>
+          <div className="flex flex-col px-3">
+            <p className="text-white text-lg pl-1">Turnos</p>
             <select
               className="p-2 rounded"
               onChange={(e) => setIdTurno(e.target.value)}
@@ -86,11 +86,11 @@ const GenerarTurno = ({
               id="nombre"
               onChange={(e) => setNombre(e.target.value)}
               value={Division}
-              label="Nombre"
+              label="Division"
             />
           )}
-          <div className="flex flex-col">
-            <p>Franja horaria</p>
+          <div className="flex flex-col px-3">
+            <p className="text-white text-lg pl-1">Franja horaria</p>
             <select
               className="p-2 rounded"
               onChange={(e) => setIdFranjaHoraria(e.target.value)}
@@ -103,8 +103,8 @@ const GenerarTurno = ({
               ))}
             </select>
           </div>
-          <div className="flex flex-col">
-            <p>Dia</p>
+          <div className="flex flex-col px-3">
+            <p className="text-white text-lg pl-1">Dia</p>
             <select
               className="p-2 rounded"
               onChange={(e) => setDia(e.target.value)}

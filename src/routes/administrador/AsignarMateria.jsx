@@ -104,11 +104,13 @@ const AsignarMateria = () => {
       )}
       <LoadingModal show={fetching} />
       <Container>
-        <h1 className="text-2xl text-center mb-4">Asignar docente a materia</h1>
-        <div className="flex flex-col xl:flex-row xl:justify-between gap-3 mb-3">
+        <h1 className="text-2xl text-center text-white my-1">
+          Asignar docente a materia
+        </h1>
+        <div className="flex flex-col xl:flex-row xl:justify-between gap-3 mt-10">
           <div className="w-1/4 flex flex-col gap-3">
             <div className="bg-white h-[500px]">
-              <p className="text-center p-3 bg-blue-400">Materias</p>
+              <p className="text-center p-3 bg-gray-500 text-white">Materias</p>
               {!fetching && (
                 <ul className="overflow-auto">
                   {materias.map((value) => (
@@ -129,7 +131,9 @@ const AsignarMateria = () => {
           </div>
           <div className="flex flex-col gap-3 w-full">
             <div className="bg-white h-[500px]">
-              <p className="text-center p-3 bg-blue-400">Divisiones</p>
+              <p className="text-center p-3 bg-gray-500 text-white">
+                Divisiones
+              </p>
               {selectMateria && (
                 <div className="overflow-auto">
                   {getCronoId(

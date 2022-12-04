@@ -55,14 +55,16 @@ const CambiarContraseña = () => {
   return (
     <Layout>
       <LoadingModal show={fetching} />
-      <Container cssClass="w-3/4 lg:w-1/4 min-h-[200px] bg-blue-500">
-        <h1 className="text-2xl text-center my-4">Iniciar sesión</h1>
+      <Container cssClass="w-3/4 lg:w-1/4 min-h-[200px] bg-primary">
+        <h1 className="text-2xl text-center text-white my-4">
+          Cambiar contraseña
+        </h1>
         <FormDinamico
           initialValues={initialValues}
           onSubmit={submitHandler}
           validate={cambiarContraseñaValidation}
           inputs={formInput}
-          btnSubmit="Cambiar"
+          btnSubmit="Cambiar contraseña"
         />
       </Container>
     </Layout>

@@ -182,13 +182,13 @@ const CrearCronograma = ({ modificacion = false }) => {
       )}
       <LoadingModal show={fetching} />
       <Container>
-        <h1 className="text-2xl text-center mb-4">
+        <h1 className="text-2xl text-center text-white mb-11">
           {!modificacion ? "Crear cronograma" : "Modificar cronograma"}
         </h1>
-        <div className="flex flex-col xl:flex-row xl:justify-between gap-3 mb-3">
+        <div className="flex flex-col xl:flex-row xl:justify-between gap-3 mb-4">
           <div className="flex flex-col gap-3 w-1/4">
             <div className="bg-white h-[500px]">
-              <p className="text-center p-3 bg-blue-400">Materias</p>
+              <p className="text-center p-3 bg-gray-500 text-white">Materias</p>
               {!fetching && (
                 <ul className="overflow-auto">
                   {materias.map((value) => (
@@ -220,10 +220,12 @@ const CrearCronograma = ({ modificacion = false }) => {
               </div>
             )}
           </div>
-          {!modificacion ? (
-            <div className="flex flex-col gap-3 w-full">
+          <div className="flex flex-col gap-3 w-full">
+            {!modificacion ? (
               <div className="bg-white h-[500px]">
-                <p className="text-center p-3 bg-blue-400">Nuevos turnos</p>
+                <p className="text-center p-3 bg-gray-500 text-white">
+                  Nuevos turnos
+                </p>
                 {selected && (
                   <div className="overflow-auto">
                     {getCronoId(cronogramas, selected.IdPlanEstudioMateria).map(
@@ -238,11 +240,9 @@ const CrearCronograma = ({ modificacion = false }) => {
                   </div>
                 )}
               </div>
-            </div>
-          ) : (
-            <div className="flex flex-col gap-3 w-full px-5">
+            ) : (
               <div className="bg-white h-[500px]">
-                <p className="text-center p-3 bg-blue-400">
+                <p className="text-center p-3 bg-gray-500 text-white">
                   Turnos modificados
                 </p>
                 {selected && (
@@ -262,14 +262,14 @@ const CrearCronograma = ({ modificacion = false }) => {
                   </div>
                 )}
               </div>
+            )}
+            <div className="flex flex-row justify-end">
+              <Button
+                name={!modificacion ? "Crear" : "Modificar"}
+                onClickEvent={handlerSubmit}
+              />
             </div>
-          )}
-        </div>
-        <div className="flex flex-row justify-end">
-          <Button
-            name={!modificacion ? "Crear" : "Modificar"}
-            onClickEvent={handlerSubmit}
-          />
+          </div>
         </div>
       </Container>
     </Layout>

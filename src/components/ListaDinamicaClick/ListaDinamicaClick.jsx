@@ -4,7 +4,7 @@ const ListaDinamicaClick = ({
   listado = [],
   onClickEvent,
   cssClass = "w-full",
-  cssClassHeader = "bg-blue-500 text-white",
+  cssClassHeader = "bg-gray-500 text-white",
   skip = [],
   headerEnable = true,
 }) => {

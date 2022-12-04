@@ -126,10 +126,14 @@ const CrearPlan = () => {
     <Layout>
       <LoadingModal show={fetching} />
       <Container>
-        <h1 className="text-2xl text-center mb-4">Asignar plan de estudio</h1>
-        <div className="flex flex-col xl:flex-row xl:justify-between gap-3 mb-3">
+        <h1 className="text-2xl text-center my-4 text-white">
+          Crear plan de estudio
+        </h1>
+        <div className="flex flex-col xl:flex-row xl:justify-between gap-3 mt-16">
           <div className="w-full xl:w-[600px]">
-            <p className="text-center p-3 bg-blue-400">Materias</p>
+            <p className="text-center p-3 bg-gray-500 text-white">
+              Materias disponibles
+            </p>
             <div className="bg-white  h-[400px]">
               {materias.length > 0 && (
                 <ListaDinamicaClick
@@ -154,9 +158,12 @@ const CrearPlan = () => {
             )}
           </div>
           <div className="w-full xl:w-[600px]">
-            <div className="flex justify-between bg-blue-400 p-3">
-              <p className="text-center">Correlativas</p>
+            <div className="flex justify-between bg-gray-500 text-white p-3">
+              <p className="text-center m-auto pl-7">
+                Materias por cuatrimestre
+              </p>
               <select
+                className="text-black"
                 onChange={(e) => setCuatrimestre(parseInt(e.target.value))}
               >
                 {[...Array.from({ length: duracion }, (_, i) => i + 1)].map(
@@ -190,7 +197,7 @@ const CrearPlan = () => {
             )}
           </div>
         </div>
-        <div className="flex justify-end w-full">
+        <div className="flex justify-end w-full mt-3">
           <Button
             onClickEvent={submitForm}
             name="Crear"

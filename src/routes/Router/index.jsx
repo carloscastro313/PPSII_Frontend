@@ -100,7 +100,11 @@ const router = createBrowserRouter([
   {
     path: "/secretaria/modificaralumno/:id",
     element: (
-      <CrearUsuario modificacion={true} redirect="/secretaria/listaAlumnos" />
+      <CrearUsuario
+        modificacion={true}
+        redirect="/secretaria/listaAlumnos"
+        title="Modificar alumno"
+      />
     ),
   },
   {
@@ -154,7 +158,7 @@ const router = createBrowserRouter([
     element: (
       <CrearUsuario
         TipoUsuario={2}
-        title="Crear secretaria"
+        title="Modificar secretaria"
         redirect="/administrador/listasecretaria"
         modificacion={true}
       />
@@ -165,7 +169,7 @@ const router = createBrowserRouter([
     element: (
       <CrearUsuario
         TipoUsuario={3}
-        title="Crear docente"
+        title="Modificar docente"
         redirect="/administrador/listadocente"
         modificacion={true}
       />
@@ -176,7 +180,7 @@ const router = createBrowserRouter([
     element: (
       <CrearUsuario
         TipoUsuario={1}
-        title="Crear administrador"
+        title="Modificar administrador"
         redirect="/administrador/listadoadmin"
         modificacion={true}
       />

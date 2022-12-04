@@ -12,19 +12,19 @@ const ListaCronograma = ({
 }) => {
   return (
     <Modal show={show}>
-      <Container cssClass="w-3/4 lg:w-1/4 min-h-[200px] bg-blue-500">
+      <Container cssClass="w-3/4 lg:w-1/4 min-h-[200px] bg-primary">
         <div className="flex justify-between m-auto p-2">
           <span></span>
-          <h1 className="text-center">Cronograma</h1>
+          <h1 className="text-center text-white ml-10 my-auto">Cronograma</h1>
           <div>
             <IconButton onClickEvent={() => closeModal(false)}>
               <BsX />
             </IconButton>
           </div>
         </div>
-        <div className="flex flex-col gap-3">
+        <div className="flex flex-col gap-3 mt-3">
           <div className="bg-white h-[500px]">
-            <p className="text-center p-3 bg-blue-400">Cronograma</p>
+            <p className="text-center p-3 bg-gray-500 text-white">Divisiones</p>
             <div className="overflow-auto">
               {cronogramas.map((value, index) => (
                 <ItemCrono
@@ -49,7 +49,7 @@ const ItemCrono = ({
   onClick,
 }) => (
   <div
-    className="flex flex-col p-3 border-b-gray-400 border-b-2 hover:bg-red-300 hover:cursor-pointer"
+    className="flex flex-col p-3 border-b-gray-400 border-b-2 hover:bg-gray-300 hover:cursor-pointer"
     onClick={onClick}
   >
     <p>Division: {Division}</p>

@@ -28,6 +28,7 @@ const FormCarrera = ({
   visible = false,
   value = null,
   modifcar = false,
+  setFetching,
 }) => {
   const { showError } = useContext(ErrorContext);
 
@@ -52,6 +53,7 @@ const FormCarrera = ({
   }, [visible, modifcar]);
 
   const submitHandler = (values) => {
+    setFetching(true);
     if (modifcar) {
       HTTP.put("/administraciones/carrera/", values)
         .then(() => {
@@ -59,7 +61,8 @@ const FormCarrera = ({
         })
         .catch(({ response }) => {
           showError(response.data.msg);
-        });
+        })
+        .finally(() => setFetching(false));
     } else {
       HTTP.post("/administraciones/carrera", {
         Descripcion: values.Descripcion,
@@ -69,16 +72,19 @@ const FormCarrera = ({
         })
         .catch(({ response }) => {
           showError(response.data.msg);
-        });
+        })
+        .finally(() => setFetching(false));
     }
   };
 
   return (
     <Modal show={visible}>
-      <Container cssClass="w-3/4 lg:w-1/4 min-h-[200px] bg-blue-500">
+      <Container cssClass="w-3/4 lg:w-1/4 min-h-[200px] bg-primary">
         <div className="flex justify-between m-auto p-2">
           <span></span>
-          <h1 className="text-center">Crear carrera</h1>
+          <h1 className="text-center text-white ml-5">
+            {modifcar ? "Modificar carrera" : "Crear carrera"}
+          </h1>
           <div>
             <IconButton onClickEvent={() => closeModal()}>
               <BsX />
@@ -87,7 +93,7 @@ const FormCarrera = ({
         </div>
         {visible && (
           <FormDinamico
-            btnSubmit="Crear"
+            btnSubmit={modifcar ? "Modificar" : "Crear"}
             inputs={formInput}
             validate={carreraForm}
             onSubmit={submitHandler}
