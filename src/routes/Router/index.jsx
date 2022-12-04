@@ -14,15 +14,17 @@ import ListadoPlan from "../administrador/ListadoPlan";
 import ListadoUsuario from "../administrador/ListadoUsuario";
 import Academico from "../alumno/Academico";
 import Correlativas from "../alumno/Correlativas";
+import FinalesAnotados from "../alumno/FinalesAnotados";
 import Inscripcion from "../alumno/Inscripcion";
 import NotasMaterias from "../alumno/NotasMaterias";
 import Plan from "../alumno/Plan";
 import CambiarContraseña from "../CambiarContraseña";
 import Index from "../Index";
 import Login from "../Login";
+import AlumnoFinal from "../profesor/AlumnoFinal";
 import AlumnosAsignados from "../profesor/AlumnosAsignados";
-import CalificarAlumnos from "../profesor/CalificarAlumnos";
 import MateriaAsignadas from "../profesor/MateriaAsignadas";
+import VerFinales from "../profesor/VerFinales";
 import AnotarMateria from "../secretaria/AnotarMateria";
 import ListadoAlumnos from "../secretaria/ListadoAlumnos";
 
@@ -52,10 +54,6 @@ const router = createBrowserRouter([
     element: <Correlativas tipo="cursada" />,
   },
   {
-    path: "/alumno/inscripcion/materias",
-    element: <Inscripcion tipo="materias" />,
-  },
-  {
     path: "/alumno/inscripcion/examen",
     element: <Inscripcion tipo="examen" />,
   },
@@ -64,20 +62,32 @@ const router = createBrowserRouter([
     element: <NotasMaterias />,
   },
   {
+    path: "/alumno/finales",
+    element: <FinalesAnotados />,
+  },
+  {
     path: "/alumno/estado",
     element: <Academico />,
+  },
+  {
+    path: "/alumno/inscripcion/materias",
+    element: <AnotarMateria isRoute={false} />,
   },
   {
     path: "/profesor/materias",
     element: <MateriaAsignadas />,
   },
   {
-    path: "/profesor/alumnos",
+    path: "/profesor/alumnos/:id",
     element: <AlumnosAsignados />,
   },
   {
     path: "/profesor/calificar",
-    element: <CalificarAlumnos />,
+    element: <VerFinales />,
+  },
+  {
+    path: "/profesor/calificar/:id",
+    element: <AlumnoFinal />,
   },
   {
     path: "/secretaria/listaAlumnos",

@@ -1,17 +1,13 @@
-import React, { useEffect } from "react";
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Container from "../../components/Container/Container";
 import Layout from "../../components/Layout/Layout";
-import useProtectedRoute from "../../hooks/useProtectedRoute";
-import LoadingModal from "../../components/LoadingModal/LoadingModal";
-import { useContext } from "react";
-import AuthContext from "../../contexts/auth/AuthContext";
-import HTTP from "../../config/axios";
 import ListaDinamicaClick from "../../components/ListaDinamicaClick/ListaDinamicaClick";
-import { useNavigate } from "react-router-dom";
+import LoadingModal from "../../components/LoadingModal/LoadingModal";
+import HTTP from "../../config/axios";
+import useProtectedRoute from "../../hooks/useProtectedRoute";
 
-const MateriaAsignadas = () => {
-  const { usuario } = useContext(AuthContext);
+const VerFinales = () => {
   useProtectedRoute("docente");
 
   const navigate = useNavigate();
@@ -21,8 +17,9 @@ const MateriaAsignadas = () => {
 
   useEffect(() => {
     setFetching(true);
-    HTTP.get("/docentes/materiasDivision/" + usuario.Id)
+    HTTP.get("/docentes/getFinalDocente")
       .then(({ data }) => {
+        console.log(data);
         setMaterias(data);
       })
       .catch((error) => {
@@ -34,7 +31,7 @@ const MateriaAsignadas = () => {
   }, []);
 
   const selectMateria = (value) => {
-    navigate("/profesor/alumnos/" + value.IdMateriaDivision);
+    navigate("/profesor/calificar/" + value.Id);
   };
 
   return (
@@ -51,13 +48,8 @@ const MateriaAsignadas = () => {
               (materias.length > 0 ? (
                 <ListaDinamicaClick
                   // actions={actions}
-                  skip={[
-                    "AlumnoMateriaDivision",
-                    "IdMateria",
-                    "IdMateriaDivision",
-                    "IdCronograma",
-                  ]}
-                  listado={materias}
+                  skip={["Id"]}
+                  listado={transformData(materias)}
                   onClickEvent={(value) => selectMateria(value)}
                 />
               ) : (
@@ -74,4 +66,16 @@ const MateriaAsignadas = () => {
   );
 };
 
-export default MateriaAsignadas;
+const transformData = (arr = []) =>
+  arr.map((value) => {
+    return {
+      ...value,
+      Fecha: new Date(value.Fecha).toLocaleDateString("es-AR", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+      }),
+    };
+  });
+
+export default VerFinales;

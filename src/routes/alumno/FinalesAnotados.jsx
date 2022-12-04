@@ -1,27 +1,18 @@
-import React, { useEffect } from "react";
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Container from "../../components/Container/Container";
 import Layout from "../../components/Layout/Layout";
-import useProtectedRoute from "../../hooks/useProtectedRoute";
-import LoadingModal from "../../components/LoadingModal/LoadingModal";
-import { useContext } from "react";
-import AuthContext from "../../contexts/auth/AuthContext";
-import HTTP from "../../config/axios";
 import ListaDinamicaClick from "../../components/ListaDinamicaClick/ListaDinamicaClick";
-import { useNavigate } from "react-router-dom";
+import HTTP from "../../config/axios";
+import useProtectedRoute from "../../hooks/useProtectedRoute";
 
-const MateriaAsignadas = () => {
-  const { usuario } = useContext(AuthContext);
-  useProtectedRoute("docente");
-
-  const navigate = useNavigate();
-
+const FinalesAnotados = () => {
   const [materias, setMaterias] = useState([]);
   const [fetching, setFetching] = useState(true);
+  useProtectedRoute("alumno");
 
   useEffect(() => {
     setFetching(true);
-    HTTP.get("/docentes/materiasDivision/" + usuario.Id)
+    HTTP.get("/alumnos/getExamenesAnotados/")
       .then(({ data }) => {
         setMaterias(data);
       })
@@ -33,17 +24,11 @@ const MateriaAsignadas = () => {
       });
   }, []);
 
-  const selectMateria = (value) => {
-    navigate("/profesor/alumnos/" + value.IdMateriaDivision);
-  };
-
   return (
     <Layout>
-      <LoadingModal show={fetching} />
       <Container>
-        <div className="h-1/5 flex justify-between">
-          <h1 className="mb-3 text-xl">Mis materias</h1>
-          <div className="h-[50px] flex gap-3"></div>
+        <div className="h-1/5">
+          <h1 className="mb-3 text-xl">Listado de alumnos</h1>
         </div>
         <div className="h-3/4">
           <div className="h-full bg-white overflow-auto">
@@ -57,8 +42,8 @@ const MateriaAsignadas = () => {
                     "IdMateriaDivision",
                     "IdCronograma",
                   ]}
-                  listado={materias}
-                  onClickEvent={(value) => selectMateria(value)}
+                  listado={transformData(materias)}
+                  onClickEvent={() => {}}
                 />
               ) : (
                 <div className="flex justify-center h-full">
@@ -74,4 +59,15 @@ const MateriaAsignadas = () => {
   );
 };
 
-export default MateriaAsignadas;
+const transformData = (arr = []) =>
+  arr.map((value) => {
+    return {
+      ...value,
+      Fecha: new Date(value.Fecha).toLocaleDateString("es-AR", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+      }),
+    };
+  });
+export default FinalesAnotados;

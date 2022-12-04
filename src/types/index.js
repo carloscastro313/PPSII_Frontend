@@ -26,14 +26,6 @@ export const menuBtns = {
       route: "/alumno/notas",
     },
     {
-      name: "Correlativas a cursar",
-      route: "/alumno/correlativas/cursada",
-    },
-    {
-      name: "Correlativas a rendir",
-      route: "/alumno/correlativas/examen",
-    },
-    {
       name: "Inscripcion a materias",
       route: "/alumno/inscripcion/materias",
     },
@@ -41,15 +33,15 @@ export const menuBtns = {
       name: "Inscripcion a examenes",
       route: "/alumno/inscripcion/examen",
     },
+    {
+      name: "Finales anotados",
+      route: "/alumno/finales",
+    },
   ],
-  profesor: [
+  docente: [
     {
       name: "Mis materias",
       route: "/profesor/materias",
-    },
-    {
-      name: "Mis alumnos",
-      route: "/profesor/alumnos",
     },
     {
       name: "Calificar alumnos",

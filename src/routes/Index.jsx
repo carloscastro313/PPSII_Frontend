@@ -15,7 +15,7 @@ const Index = () => {
       <Container>
         <div className="h-1/2">
           <h1 className="mb-3 text-xl">
-            Bienvenido {usuario && usuario.nombre}
+            Bienvenido {usuario && usuario.Nombre}
           </h1>
           <div className="flex flex-col w-full sm:flex-wrap sm:flex-row gap-3 overflow-x-auto max-h-60">
             {usuario &&

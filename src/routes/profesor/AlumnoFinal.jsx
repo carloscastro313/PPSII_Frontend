@@ -1,7 +1,5 @@
-import React, { useContext } from "react";
-import { useState } from "react";
-import { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import React, { useContext, useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import Container from "../../components/Container/Container";
 import Layout from "../../components/Layout/Layout";
 import ListaDinamicaClick from "../../components/ListaDinamicaClick/ListaDinamicaClick";
@@ -9,26 +7,26 @@ import LoadingModal from "../../components/LoadingModal/LoadingModal";
 import HTTP from "../../config/axios";
 import ErrorContext from "../../contexts/errorPopup/ErrorContext";
 import useProtectedRoute from "../../hooks/useProtectedRoute";
-import AlumnoMateria from "../../modals/AlumnoMateria";
+import NotaFinal from "../../modals/NotaFinal";
 
-const AlumnosAsignados = () => {
+const AlumnoFinal = () => {
   const { showError } = useContext(ErrorContext);
-
   useProtectedRoute("docente");
 
   const params = useParams();
+  const navigate = useNavigate();
 
-  const [alumnos, setAlumnos] = useState([]);
+  const [materias, setMaterias] = useState([]);
   const [fetching, setFetching] = useState(true);
   const [selected, setSelected] = useState(null);
   const [show, setShow] = useState(false);
 
   useEffect(() => {
     setFetching(true);
-
-    HTTP.get("/docentes/getAlumnosPorMateriaDivision/" + params["id"])
+    HTTP.get("/docentes/getFinalAlumno/" + params.id)
       .then(({ data }) => {
-        setAlumnos(data);
+        console.log(data);
+        setMaterias(data);
       })
       .catch((error) => {
         console.log(error);
@@ -38,7 +36,7 @@ const AlumnosAsignados = () => {
       });
   }, []);
 
-  const selectAlumno = (value) => {
+  const selectMateria = (value) => {
     setSelected(value);
     setShow(true);
   };
@@ -48,18 +46,18 @@ const AlumnosAsignados = () => {
     setShow(false);
   };
 
-  const cambiarNotas = (notas, aprobarCursada) => {
+  const agregarNota = (nota) => {
     setFetching(true);
 
-    HTTP.post("/docentes/agregarNotasAAlumno", {
-      idAlumnoMateria: selected.AlumnoMateriaDivision.Id,
-      notas,
-      aprobarCursada,
+    HTTP.post("/docentes/agregarNotaFinalAAlumno", {
+      IdExamenFinalAlumno: selected.IdExamenFinalAlumno,
+      IdAlumnoMaterias: selected.IdAlumnoMaterias,
+      nota,
     })
       .then(() => {
-        HTTP.get("/docentes/getAlumnosPorMateriaDivision/" + params["id"])
+        HTTP.get("/docentes/getFinalAlumno/" + params["id"])
           .then(({ data }) => {
-            setAlumnos(data);
+            setMaterias(data);
           })
           .catch((error) => {
             console.log(error);
@@ -73,43 +71,13 @@ const AlumnosAsignados = () => {
       })
       .finally(() => {
         closeModal();
-      });
-  };
-
-  const desaprobarAlumno = (notas) => {
-    HTTP.post("/docentes/desaprobarAlumno", {
-      idAlumnoMateria: selected.AlumnoMateriaDivision.Id,
-      notas,
-    })
-      .then(() => {
-        HTTP.get("/docentes/getAlumnosPorMateriaDivision/" + params["id"])
-          .then(({ data }) => {
-            setAlumnos(data);
-          })
-          .catch((error) => {
-            console.log(error);
-          })
-          .finally(() => {
-            setFetching(false);
-          });
-      })
-      .catch((error) => {
-        showError(error.response.data.msg);
-      })
-      .finally(() => {
-        closeModal();
+        setFetching(false);
       });
   };
 
   return (
     <Layout>
-      <AlumnoMateria
-        show={show}
-        closeModal={closeModal}
-        AlumnoMateria={selected}
-        submit={cambiarNotas}
-        desaprobarAlumno={desaprobarAlumno}
-      />
+      <NotaFinal show={show} closeModal={closeModal} submit={agregarNota} />
       <LoadingModal show={fetching} />
       <Container>
         <div className="h-1/5 flex justify-between">
@@ -119,16 +87,18 @@ const AlumnosAsignados = () => {
         <div className="h-3/4">
           <div className="h-full bg-white overflow-auto">
             {!fetching &&
-              (alumnos.length > 0 ? (
+              (materias.length > 0 ? (
                 <ListaDinamicaClick
                   // actions={actions}
-                  skip={["AlumnoMateriaDivision"]}
-                  listado={alumnos}
-                  onClickEvent={(value) => selectAlumno(value)}
+                  skip={["IdExamenFinalAlumno", "IdAlumnoMaterias"]}
+                  listado={materias}
+                  onClickEvent={(value) => selectMateria(value)}
                 />
               ) : (
                 <div className="flex justify-center h-full">
-                  <h1 className="my-auto text-xl">No hay alumnos</h1>
+                  <h1 className="my-auto text-xl">
+                    No tienes materias asignadas
+                  </h1>
                 </div>
               ))}
           </div>
@@ -138,4 +108,4 @@ const AlumnosAsignados = () => {
   );
 };
 
-export default AlumnosAsignados;
+export default AlumnoFinal;
