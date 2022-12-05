@@ -19,7 +19,9 @@ import Inscripcion from "../alumno/Inscripcion";
 import NotasMaterias from "../alumno/NotasMaterias";
 import Plan from "../alumno/Plan";
 import CambiarContraseña from "../CambiarContraseña";
+import CrearAviso from "../CrearAviso";
 import Index from "../Index";
+import ListadoAvisos from "../ListadoAvisos";
 import Login from "../Login";
 import AlumnoFinal from "../profesor/AlumnoFinal";
 import AlumnosAsignados from "../profesor/AlumnosAsignados";
@@ -40,6 +42,14 @@ const router = createBrowserRouter([
   {
     path: "/cambiarcontraseña",
     element: <CambiarContraseña />,
+  },
+  {
+    path: "/crearAviso",
+    element: <CrearAviso />,
+  },
+  {
+    path: "/avisos",
+    element: <ListadoAvisos />,
   },
   {
     path: "/alumno/plan",

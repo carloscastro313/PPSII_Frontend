@@ -37,6 +37,10 @@ export const menuBtns = {
       name: "Finales anotados",
       route: "/alumno/finales",
     },
+    {
+      name: "Ver avisos",
+      route: "/avisos",
+    },
   ],
   docente: [
     {
@@ -47,6 +51,14 @@ export const menuBtns = {
       name: "Ver finales",
       route: "/profesor/calificar",
     },
+    {
+      name: "Crear aviso",
+      route: "/crearAviso",
+    },
+    {
+      name: "Ver avisos",
+      route: "/avisos",
+    },
   ],
   secretaria: [
     {
@@ -56,6 +68,14 @@ export const menuBtns = {
     {
       name: "Crear alumno",
       route: "/secretaria/crearalumno",
+    },
+    {
+      name: "Crear aviso",
+      route: "/crearAviso",
+    },
+    {
+      name: "Ver avisos",
+      route: "/avisos",
     },
   ],
   administrador: [
@@ -86,6 +106,14 @@ export const menuBtns = {
     {
       name: "Instancia inscripcion a materias",
       route: "/administrador/generarInstancia/materia",
+    },
+    {
+      name: "Crear aviso",
+      route: "/crearAviso",
+    },
+    {
+      name: "Ver avisos",
+      route: "/avisos",
     },
   ],
 };
