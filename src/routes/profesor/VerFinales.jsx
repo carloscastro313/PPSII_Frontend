@@ -55,7 +55,7 @@ const VerFinales = () => {
               ) : (
                 <div className="flex justify-center h-full">
                   <h1 className="my-auto text-xl">
-                    No tienes finales asignadas
+                    No tienes finales asignados
                   </h1>
                 </div>
               ))}
