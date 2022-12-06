@@ -6,6 +6,7 @@ import Container from "../../components/Container/Container";
 import ExcelExport from "../../components/ExcelExport/ExcelExport";
 import Layout from "../../components/Layout/Layout";
 import ListaDinamica from "../../components/ListaDinamica/ListaDinamica";
+import LoadingModal from "../../components/LoadingModal/LoadingModal";
 import Spinner from "../../components/Spinner/Spinner";
 import HTTP from "../../config/axios";
 import ErrorContext from "../../contexts/errorPopup/ErrorContext";
@@ -56,6 +57,7 @@ const ListadoAdmin = () => {
 
   return (
     <Layout>
+      <LoadingModal show={fetching} />
       <Container>
         <div className="h-1/6 flex justify-between">
           <h1 className="my-auto text-xl text-white">
@@ -80,7 +82,7 @@ const ListadoAdmin = () => {
             )}
             {usuarios.length === 0 && !fetching && (
               <div className="flex justify-center h-full">
-                <h1 className="my-auto text-xl">No hay admin</h1>
+                <h1 className="my-auto text-xl">No hay administradores</h1>
               </div>
             )}
             {fetching && (

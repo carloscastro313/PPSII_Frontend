@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import Container from "../../components/Container/Container";
 import Layout from "../../components/Layout/Layout";
 import ListaDinamicaClick from "../../components/ListaDinamicaClick/ListaDinamicaClick";
+import LoadingModal from "../../components/LoadingModal/LoadingModal";
 import Spinner from "../../components/Spinner/Spinner";
 import HTTP from "../../config/axios";
 import useProtectedRoute from "../../hooks/useProtectedRoute";
@@ -30,11 +31,12 @@ const ListadoPlan = () => {
 
   return (
     <Layout>
+      <LoadingModal show={fetching} />
       <Container>
-        <div className="h-1/5 flex">
-          <h1 className="mb-3 text-xl">Listado de plan</h1>
+        <div className="h-1/6 flex">
+          <h1 className="my-auto text-xl text-white">Listado de plan</h1>
         </div>
-        <div className="h-3/4">
+        <div className="h-3/4 mt-3">
           <div className={`h-full overflow-auto ${!fetching && "bg-white"}`}>
             {planes.length > 0 && (
               <ListaDinamicaClick

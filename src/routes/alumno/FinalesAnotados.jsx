@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Container from "../../components/Container/Container";
 import Layout from "../../components/Layout/Layout";
 import ListaDinamicaClick from "../../components/ListaDinamicaClick/ListaDinamicaClick";
+import LoadingModal from "../../components/LoadingModal/LoadingModal";
 import HTTP from "../../config/axios";
 import useProtectedRoute from "../../hooks/useProtectedRoute";
 
@@ -26,6 +27,7 @@ const FinalesAnotados = () => {
 
   return (
     <Layout>
+      <LoadingModal show={fetching} />
       <Container>
         <div className="h-1/6">
           <h1 className="my-auto text-xl text-white">
@@ -49,9 +51,7 @@ const FinalesAnotados = () => {
                 />
               ) : (
                 <div className="flex justify-center h-full">
-                  <h1 className="my-auto text-xl">
-                    No tienes materias asignadas
-                  </h1>
+                  <h1 className="my-auto text-xl">No hay finales pendientes</h1>
                 </div>
               ))}
           </div>

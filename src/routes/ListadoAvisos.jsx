@@ -75,7 +75,7 @@ const ListadoAvisos = () => {
                 />
               ) : (
                 <div className="flex justify-center h-full">
-                  <h1 className="my-auto text-xl">No hay notas</h1>
+                  <h1 className="my-auto text-xl">No hay avisos</h1>
                 </div>
               ))}
           </div>

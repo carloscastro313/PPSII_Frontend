@@ -137,6 +137,7 @@ const CrearUsuario = ({
   };
 
   const crearAlumno = ({ Id }) => {
+    setLoading(true);
     HTTP.post("/alumnos/", { Alumno: { ...cache, TipoUsuario }, CarreraId: Id })
       .then(() => {
         navigate(redirect);

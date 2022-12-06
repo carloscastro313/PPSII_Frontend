@@ -124,6 +124,8 @@ const CrearCronograma = ({ modificacion = false }) => {
       return;
     }
 
+    setFetching(true);
+
     HTTP.post("/administraciones/planEstudio/materiasDivision", {
       materiasDivision: cronogramas,
       cronogramasModificados: cronogramasModificados.map(
@@ -143,7 +145,8 @@ const CrearCronograma = ({ modificacion = false }) => {
       .catch((response) => {
         console.log(response);
         showError(response.data.msg);
-      });
+      })
+      .finally(() => setFetching(false));
   };
 
   return (

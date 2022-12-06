@@ -66,7 +66,9 @@ const CrearPlan = () => {
   }, [fetch]);
 
   const submitForm = () => {
+    setFetching(true);
     if (seleccion.length === 0) {
+      setFetching(false);
       showError("No hay materias seleccionadas");
       return;
     }
@@ -75,7 +77,7 @@ const CrearPlan = () => {
 
     if (empty.length > 0) {
       const strError = createStrError(empty);
-
+      setFetching(false);
       showError("Los cuatrimestres " + strError + " esta vacios");
       return;
     }
@@ -97,7 +99,8 @@ const CrearPlan = () => {
       .catch((data) => {
         console.log(data);
         //showError(response.data.msg);
-      });
+      })
+      .finally(() => setFetching(false));
   };
 
   const onSelectMateria = (values, isSelect) => {

@@ -44,8 +44,6 @@ const GenerarInstancia = ({ materia = false }) => {
       showError("Todos los campos son obligatorios");
       return;
     }
-
-    debugger;
     const inicio = getDate(FechaInicio);
     const final = getDate(FechaFinal);
     const actual = new Date();

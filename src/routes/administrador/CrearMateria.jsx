@@ -55,7 +55,9 @@ const CrearMateria = ({ modificacion }) => {
   }, [fetch]);
 
   const submitForm = () => {
+    setFetching(true);
     if (Descripcion.trim() === "") {
+      setFetching(false);
       showError("El nombre es obligatorio");
       return;
     }
@@ -71,7 +73,8 @@ const CrearMateria = ({ modificacion }) => {
         .catch((error) => {
           console.log(error);
           showError(error.data.msg);
-        });
+        })
+        .finally(() => setFetching(false));
     } else {
       HTTP.post("/administraciones/materia", {
         materia: { Descripcion },
@@ -83,7 +86,8 @@ const CrearMateria = ({ modificacion }) => {
         .catch((error) => {
           console.log(error);
           showError(error.data.msg);
-        });
+        })
+        .finally(() => setFetching(false));
     }
   };
 

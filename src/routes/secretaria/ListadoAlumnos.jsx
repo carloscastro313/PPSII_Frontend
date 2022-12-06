@@ -5,6 +5,7 @@ import Container from "../../components/Container/Container";
 import ExcelExport from "../../components/ExcelExport/ExcelExport";
 import Layout from "../../components/Layout/Layout";
 import ListaDinamica from "../../components/ListaDinamica/ListaDinamica";
+import LoadingModal from "../../components/LoadingModal/LoadingModal";
 import HTTP from "../../config/axios";
 import useProtectedRoute from "../../hooks/useProtectedRoute";
 

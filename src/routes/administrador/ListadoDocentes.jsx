@@ -6,6 +6,7 @@ import Container from "../../components/Container/Container";
 import ExcelExport from "../../components/ExcelExport/ExcelExport";
 import Layout from "../../components/Layout/Layout";
 import ListaDinamica from "../../components/ListaDinamica/ListaDinamica";
+import LoadingModal from "../../components/LoadingModal/LoadingModal";
 import Spinner from "../../components/Spinner/Spinner";
 import HTTP from "../../config/axios";
 import ErrorContext from "../../contexts/errorPopup/ErrorContext";
@@ -55,6 +56,7 @@ const ListadoDocentes = () => {
 
   return (
     <Layout>
+      <LoadingModal show={fetching} />
       <Container>
         <div className="h-1/6 flex justify-between">
           <h1 className="text-xl text-white my-auto">Listado de docentes</h1>

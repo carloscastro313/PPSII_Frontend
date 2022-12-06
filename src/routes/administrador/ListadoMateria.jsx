@@ -5,6 +5,7 @@ import Container from "../../components/Container/Container";
 import ExcelExport from "../../components/ExcelExport/ExcelExport";
 import Layout from "../../components/Layout/Layout";
 import ListaDinamica from "../../components/ListaDinamica/ListaDinamica";
+import LoadingModal from "../../components/LoadingModal/LoadingModal";
 import Spinner from "../../components/Spinner/Spinner";
 import HTTP from "../../config/axios";
 import useProtectedRoute from "../../hooks/useProtectedRoute";
@@ -43,18 +44,20 @@ const ListadoMateria = () => {
 
   return (
     <Layout>
+      <LoadingModal show={fetching} />
       <Container>
-        <div className="h-1/5 flex justify-between">
-          <h1 className="mb-3 text-xl">Listado de materia</h1>
-          <div className="h-[50px] flex gap-3">
+        <div className="h-1/6 flex justify-between">
+          <h1 className="my-auto text-xl text-white">Listado de materia</h1>
+          <div className="h-[50px] flex gap-3 my-auto">
             <ExcelExport filename="administradores" lista={materias} />
             <Button
               name="Crear usuario"
               onClickEvent={() => navigate("/administrador/crearmateria")}
+              cssClass="bg-blue-600 hover:bg-blue-500 text-white p-3"
             />
           </div>
         </div>
-        <div className="h-3/4">
+        <div className="h-3/4 mt-3">
           <div className={`h-full overflow-auto ${!fetching && "bg-white"}`}>
             {materias.length > 0 && (
               <ListaDinamica
