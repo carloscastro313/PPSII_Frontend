@@ -107,7 +107,9 @@ const CrearMateria = ({ modificacion }) => {
     <Layout>
       <LoadingModal show={fetching} />
       <Container>
-        <h1 className="text-2xl text-center mb-4">Crear materia</h1>
+        <h1 className="text-2xl text-center text-white mb-4">
+          {modificacion ? "Modificar materia" : "Crear materia"}
+        </h1>
         <div className="w-[400px] mb-5">
           <Input
             type="text"

@@ -51,7 +51,7 @@ const ListadoMateria = () => {
           <div className="h-[50px] flex gap-3 my-auto">
             <ExcelExport filename="administradores" lista={materias} />
             <Button
-              name="Crear usuario"
+              name="Crear materia"
               onClickEvent={() => navigate("/administrador/crearmateria")}
               cssClass="bg-blue-600 hover:bg-blue-500 text-white p-3"
             />
